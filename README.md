@@ -11,7 +11,7 @@ uvicorn main:app --reload
 NEW TERMINAL ----
 cd frontend
 streamlit run app.py
-x
+
 
 -----------Download 10 Gb model into local and use local path
 huggingface-cli download tiiuae/falcon-7b-instruct --local-dir ~/models/falcon-7b-instruct
@@ -20,4 +20,7 @@ huggingface-cli download tiiuae/falcon-7b-instruct --local-dir ~/models/falcon-7
 OLLAMA
 
 ollama serve &
+
+ brew install libomp
+
 

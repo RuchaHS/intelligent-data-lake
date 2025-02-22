@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+import pandas as pd
 
 st.set_page_config(page_title="Intelligent Data Lake", layout="wide")
 
@@ -17,8 +18,11 @@ if option == "Text-to-SQL":
     query_text = st.text_input("Enter your query:")
     if st.button("Generate SQL"):
         response = requests.post(f"{BACKEND_URL}/text-to-sql", json={"query_text": query_text})
-        sql_query = response.json().get("sql_query", "❌ Error generating SQL")
-        st.code(sql_query, language="sql")
+        if response.status_code == 200:
+            sql_query = response.json().get("sql_query", "❌ Error generating SQL")
+            st.code(sql_query, language="sql")
+        else:
+            st.error("❌ Error generating SQL")
 
 # 📌 SQL Explanation
 elif option == "SQL Explanation":
@@ -26,38 +30,63 @@ elif option == "SQL Explanation":
     sql_query = st.text_area("Paste your SQL query:")
     if st.button("Explain SQL"):
         response = requests.post(f"{BACKEND_URL}/sql-to-text", json={"query_text": sql_query})
-        explanation = response.json().get("explanation", "❌ Error explaining SQL")
-        st.write(explanation)
+        if response.status_code == 200:
+            explanation = response.json().get("explanation", "❌ Error explaining SQL")
+            st.write(explanation)
+        else:
+            st.error("❌ Error explaining SQL")
+
 # 📌 Metadata Display - Upload CSV & Show Report
-if option == "Metadata":
+elif option == "Metadata":
     st.subheader("📝 Upload CSV & View Metadata")
     uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 
     if uploaded_file:
         st.success("✅ File uploaded successfully!")
         if st.button("Process Metadata"):
-            # ✅ Send the file to FastAPI
             files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
             response = requests.post(f"{BACKEND_URL}/upload-metadata", files=files)
 
             if response.status_code == 200:
                 metadata = response.json()
-
+                
                 st.subheader("📑 Extracted Metadata")
-                st.json(metadata)
+                # st.json(metadata)
 
-                # ✅ Display Profiling Report Link
-                report_path = metadata.get("profiling_report")
-                if report_path:
-                    st.markdown(f"[📊 View Data Profiling Report]({report_path})", unsafe_allow_html=True)
+                # ✅ Display Profiling Report (Both Link & Embedded)
+                report_url = metadata.get("profiling_report_url")
+                if report_url:
+                    st.markdown(f"### [📊 View Detailed Data Profiling Report]({BACKEND_URL}{report_url})", unsafe_allow_html=True)
+                    # st.components.v1.html(metadata["embedded_report"], height=600) #to embed html into current page
+                else:
+                    st.error("❌ Profiling report not available.")
             else:
                 st.error(f"❌ Error: {response.status_code} - {response.text}")
 
-# 📌 Anomaly Detection
 elif option == "Anomaly Detection":
     st.subheader("🚨 Detect Anomalies in Data")
-    if st.button("Check for Anomalies"):
-        response = requests.get(f"{BACKEND_URL}/anomalies")
-        anomalies = response.json().get("anomalies", [])
-        st.write("🔍 Anomalies Found:")
-        st.write(anomalies)
+
+    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+
+    if uploaded_file:
+        st.success("✅ File uploaded successfully!")
+
+        if st.button("Detect Anomalies"):
+            # ✅ Send the file to FastAPI
+            files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
+            response = requests.post(f"{BACKEND_URL}/detect-anomalies", files=files)
+
+            if response.status_code == 200:
+                result = response.json()
+                anomaly_csv_url = result.get("anomaly_csv_url")
+
+                if anomaly_csv_url:
+                    # ✅ Provide Download Option for Anomaly CSV
+                    st.markdown(
+                        f'<h2 style="color:#333;">📥 <a href="{BACKEND_URL}{anomaly_csv_url}" download="anomalies.csv" target="_blank">Download Anomalies CSV</a></h2>',
+                        unsafe_allow_html=True
+                    )
+                else:
+                    st.warning("No anomalies detected.")
+            else:
+                st.error(f"❌ Error: {response.status_code} - {response.text}")
