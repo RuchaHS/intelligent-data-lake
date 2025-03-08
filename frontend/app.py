@@ -8,7 +8,15 @@ st.title("📊 Intelligent Data Lake Management")
 
 # Sidebar for navigation
 st.sidebar.header("Navigation")
-option = st.sidebar.radio("Choose a function:", ["Text-to-SQL", "SQL Explanation", "Metadata", "Anomaly Detection"])
+option = st.sidebar.radio("Choose a function:", [
+    "Text-to-SQL",
+    "SQL Explanation",
+    "Metadata",
+    "Anomaly Detection",
+    "Data Profiling",
+    "Metadata Detection (LLM)",
+    "Data Quality Rules (LLM)"
+])
 
 BACKEND_URL = "http://localhost:8000"
 
@@ -83,10 +91,55 @@ elif option == "Anomaly Detection":
                 if anomaly_csv_url:
                     # ✅ Provide Download Option for Anomaly CSV
                     st.markdown(
-                        f'<h2 style="color:#333;">📥 <a href="{BACKEND_URL}{anomaly_csv_url}" download="anomalies.csv" target="_blank">Download Anomalies CSV</a></h2>',
+                        f'<h3 style="color:#333;">📥 <a href="{BACKEND_URL}{anomaly_csv_url}" download="anomalies.csv" target="_blank">Download Anomalies CSV</a></h3>',
                         unsafe_allow_html=True
                     )
                 else:
                     st.warning("No anomalies detected.")
             else:
                 st.error(f"❌ Error: {response.status_code} - {response.text}")
+
+# NEW FEATURES
+elif option == "Metadata Detection (LLM)":
+    st.subheader("📄 AI-Powered Metadata Insights")
+    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+
+    if uploaded_file:
+        st.success("✅ File uploaded successfully!")
+        if st.button("Analyze with AI"):
+            files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
+            response = requests.post(f"{BACKEND_URL}/metadata-llm", files=files)
+
+            if response.status_code == 200:
+                metadata = response.json()
+                st.markdown("### 📊 AI-Generated Metadata Analysis")
+                st.write(metadata["metadata_analysis"])
+            else:
+                st.error(f"❌ Error: {response.status_code} - {response.text}")
+
+
+elif option == "Data Quality Rules (LLM)":
+    st.subheader("🛡️ AI-Powered Data Quality Rules")
+    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+
+    if uploaded_file:
+        st.success("✅ File uploaded successfully!")
+        if st.button("Generate Data Quality Rules"):
+            files = {"file": (uploaded_file.name, uploaded_file, "text/csv")}
+            response = requests.post(f"{BACKEND_URL}/data-quality-rules", files=files)
+
+            if response.status_code == 200:
+                rules_json = response.json()
+                st.markdown("### 📜 Suggested Data Quality Rules")
+                st.json(rules_json)
+
+                st.download_button(
+                    label="📥 Download Data Quality Rules JSON",
+                    data=str(rules_json),
+                    file_name="data_quality_rules.json",
+                    mime="application/json"
+                )
+            else:
+                st.error(f"❌ Error: {response.status_code} - {response.text}")
+
+

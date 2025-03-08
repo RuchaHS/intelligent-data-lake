@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, File, UploadFile
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
 import logging
@@ -7,9 +7,11 @@ from fastapi.responses import JSONResponse
 import json
 import pandas as pd
 from pydantic import BaseModel
+from models.metadata_analyzer_llm import MetadataAnalyzer
 from models.query_optimizer import QueryOptimizer
 from models.anomaly_detector import AnomalyDetector
 from models.metadata_generator import MetadataGenerator
+from models.data_quality_rules_generator import DataQualityGenerator
 from pycaret.anomaly import setup, create_model, assign_model
 
 app = FastAPI()
@@ -18,15 +20,17 @@ app = FastAPI()
 metadata_generator = MetadataGenerator()
 query_optimizer = QueryOptimizer()
 anomaly_detector = AnomalyDetector()
+data_quality_generator = DataQualityGenerator()
+metadata_analyzer = MetadataAnalyzer()
 
 # ✅ Define Data Folders
-data_folder = "backend/uploads"
-report_folder = os.path.abspath("backend/profiling_reports")
+data_folder = "uploads"
+report_folder = os.path.abspath("profiling_reports")
 os.makedirs(data_folder, exist_ok=True)
 os.makedirs(report_folder, exist_ok=True)
 
 # ✅ Serve Reports via FastAPI
-app.mount("/reports", StaticFiles(directory=report_folder), name="reports")
+app.mount("/profiling_reports", StaticFiles(directory=report_folder), name="profiling_reports")
 
 class QueryRequest(BaseModel):
     query_text: str
@@ -62,7 +66,7 @@ async def upload_file(file: UploadFile = File(...)):
 
         # ✅ Get Report Filename & URL
         report_filename = os.path.basename(metadata['profiling_report'])
-        report_url = f"/reports/{report_filename}"
+        report_url = f"/profiling_reports/{report_filename}"
 
         # ✅ Ensure the Report Exists
         if not os.path.exists(metadata['profiling_report']):
@@ -84,17 +88,9 @@ async def upload_file(file: UploadFile = File(...)):
         logging.error(f"❌ Error processing metadata: {str(e)}")
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse, JSONResponse
-import pandas as pd
-import os
-import logging
-from pycaret.anomaly import setup, create_model, assign_model
 
-app = FastAPI()
-
-data_folder = "backend/uploads"
-report_folder = "backend/anomaly_reports"
+data_folder = "uploads"
+report_folder = "anomaly_reports"
 os.makedirs(data_folder, exist_ok=True)
 os.makedirs(report_folder, exist_ok=True)
 
@@ -145,3 +141,22 @@ async def download_anomalies(filename: str):
         return FileResponse(file_path, filename=filename, media_type="text/csv")
     else:
         raise HTTPException(status_code=404, detail="File not found.")
+
+# NEW FEATURES
+@app.post("/data-quality-rules")
+async def data_quality_rules(file: UploadFile = File(...)):
+    file_path = os.path.join(data_folder, file.filename)
+    df = pd.read_csv(file_path)
+
+    rules_json = data_quality_generator.generate_quality_rules(df)
+
+    return JSONResponse(json.loads(rules_json))
+
+@app.post("/metadata-llm")
+async def metadata_llm(file: UploadFile = File(...)):
+    file_path = os.path.join(data_folder, file.filename)
+    df = pd.read_csv(file_path)
+
+    analysis = metadata_analyzer.analyze_metadata(df)
+
+    return JSONResponse({"metadata_analysis": analysis})
