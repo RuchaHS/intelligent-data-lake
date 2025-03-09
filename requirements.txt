@@ -11,3 +11,4 @@ SQLAlchemy==2.0.38
 psycopg2-binary
 duckdb
 qdrant-client
+sentence_transformers

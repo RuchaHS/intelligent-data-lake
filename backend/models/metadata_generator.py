@@ -38,6 +38,12 @@ class MetadataGenerator:
 
         Example output:
         {{
+         "dataset_description": {{
+            "title": "Table_title",
+            "summary": "A brief explanation of the data, what it represents, and its possible use cases.",
+            "data_type": "Type of data (e.g., tabular, time-series, categorical, numerical, mixed).",
+            "potential_use_cases": [Possible applications - for example reporting, fraud detection, sentiment analysis, HR analytics)]
+        }},
         "descriptive_metadata": {{
             "columns": ["Column1", "Column2"],
             "sample_values": {{"Column1": "Value1", "Column2": "Value2"}},

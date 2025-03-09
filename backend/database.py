@@ -1,19 +1,30 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
+import duckdb
 import os
 
-load_dotenv()
+# ✅ Define database path
+DB_PATH = "uploads/intelligent_data_lake.duckdb"
 
-DATABASE_URL = f"postgresql+psycopg2://{os.getenv('POSTGRES_USER')}:{os.getenv('POSTGRES_PASSWORD')}@{os.getenv('POSTGRES_HOST')}:{os.getenv('POSTGRES_PORT')}/{os.getenv('POSTGRES_DB')}"
+# ✅ Create database connection
+conn = duckdb.connect(DB_PATH)
 
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+# ✅ Ensure uploads directory exists
+os.makedirs("uploads", exist_ok=True)
 
-def get_db():
-    db = SessionLocal()
+def initialize_database():
+    """Initialize DuckDB and create necessary tables if they don't exist."""
     try:
-        yield db
-    finally:
-        db.close()
+        conn.execute("""
+        CREATE TABLE IF NOT EXISTS file_metadata (
+            id UUID DEFAULT uuid(),
+            table_name TEXT UNIQUE NOT NULL,
+            file_name TEXT,
+            file_type TEXT,
+            created_at TIMESTAMP DEFAULT now()
+        );
+        """)
+        print("✅ Database initialized successfully.")
+    except Exception as e:
+        print(f"❌ Error initializing database: {e}")
+
+# ✅ Run database initialization
+initialize_database()

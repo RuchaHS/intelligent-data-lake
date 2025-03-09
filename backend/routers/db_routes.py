@@ -1,94 +1,191 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File, Form
 import duckdb
 import pandas as pd
-from models.query_optimizer import QueryOptimizer
+import io
+import json
+import numpy as np
+from sentence_transformers import SentenceTransformer  # ✅ For embeddings
+from database import DB_PATH
 from models.metadata_generator import MetadataGenerator
 from models.anomaly_detector import AnomalyDetector
 from models.data_quality_rules_generator import DataQualityGenerator
+from models.query_optimizer import QueryOptimizer
 from models.vector_search import VectorSearch
 
 router = APIRouter(tags=["Database Processing"])
 
 # ✅ Connect to DuckDB
-DB_PATH = "intelligent_data_lake.duckdb"
 conn = duckdb.connect(DB_PATH)
 
 # ✅ Initialize Models
-query_optimizer = QueryOptimizer()
 metadata_generator = MetadataGenerator()
 anomaly_detector = AnomalyDetector()
 data_quality_generator = DataQualityGenerator()
+query_optimizer = QueryOptimizer()
 vector_search = VectorSearch()
 
+# ✅ Load Embedding Model
+embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")  # ✅ Fast & efficient
+
+# --------------------------------
+# ✅ DATABASE OPERATIONS
+# --------------------------------
 
 def execute_query(query: str):
-    """ Executes a SQL query in DuckDB and returns results as DataFrame. """
+    """Executes a SQL query in DuckDB and returns results as DataFrame."""
     try:
         return conn.execute(query).fetchdf()
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Query Execution Error: {e}")
 
+def insert_metadata(table_name, file_name, file_type):
+    """Inserts metadata of uploaded files into DuckDB."""
+    conn.execute("INSERT INTO file_metadata (table_name, file_name, file_type) VALUES (?, ?, ?)",
+                 (table_name, file_name, file_type))
 
-# ✅ Text-to-SQL Execution
-@router.post("/text-to-sql")
-def text_to_sql(query_text: str):
+def read_file(file: UploadFile, file_type: str) -> pd.DataFrame:
+    """Reads various file formats into a Pandas DataFrame."""
     try:
-        sql_query = query_optimizer.text_to_sql(query_text)
-        result = execute_query(sql_query)
-        return {"sql_query": sql_query, "results": result.to_dict(orient="records")}
+        if file_type == "csv":
+            return pd.read_csv(io.StringIO(file.file.read().decode("utf-8")))
+        elif file_type == "json":
+            return pd.read_json(io.StringIO(file.file.read().decode("utf-8")))
+        elif file_type == "parquet":
+            return pd.read_parquet(io.BytesIO(file.file.read()))
+        elif file_type in ["xls", "xlsx"]:
+            return pd.read_excel(io.BytesIO(file.file.read()), engine="openpyxl")
+        else:
+            raise HTTPException(status_code=400, detail="Unsupported file format.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error reading file: {e}")
+
+@router.post("/upload-file")
+async def upload_file(file: UploadFile = File(...), table_name: str = Form(...)):
+    """Uploads CSV, JSON, Parquet, or Excel file and stores in DuckDB."""
+    try:
+        file_ext = file.filename.split(".")[-1].lower()
+        df = read_file(file, file_ext)
+
+        if df.empty:
+            raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+        # ✅ Convert column names to lowercase (avoid SQL conflicts)
+        df.columns = [col.lower().replace(" ", "_") for col in df.columns]
+
+        # ✅ Store in DuckDB
+        conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} AS SELECT * FROM df")
+
+        # ✅ Insert into metadata table
+        insert_metadata(table_name, file.filename, file_ext)
+
+        return {"message": f"File `{file.filename}` uploaded to `{table_name}` successfully!", "columns": df.columns.tolist()}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"File Upload Error: {e}")
+
+@router.get("/list-tables")
+def list_tables():
+    """Lists all tables in DuckDB."""
+    try:
+        tables = conn.execute("SHOW TABLES").fetchall()
+        return {"tables": [t[0] for t in tables]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/preview-table/{table_name}")
+def preview_table(table_name: str):
+    """Fetches first 10 rows of a DuckDB table for preview."""
+    try:
+        df = execute_query(f"SELECT * FROM {table_name} LIMIT 10")
+        return {"preview": df.to_dict(orient="records")}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-# ✅ Extract Metadata from DuckDB Tables
+@router.post("/run-query")
+def run_query(query_text: str = Form(...)):
+    """Executes a SQL query on DuckDB and returns results."""
+    try:
+        if "DROP" in query_text.upper() or "DELETE" in query_text.upper():
+            raise HTTPException(status_code=400, detail="🚨 Dangerous query detected! Only SELECT statements are allowed.")
+
+        df = execute_query(query_text)
+
+        # ✅ Replace problematic float values for JSON compatibility
+        df.replace([np.inf, -np.inf], np.nan, inplace=True)
+        df.fillna("null", inplace=True)  # Replace NaN with a string "null"
+
+        return {"query_results": df.to_dict(orient="records")}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Query Execution Error: {e}")
+
+def execute_query(query: str):
+    """Executes SQL query in DuckDB and returns DataFrame."""
+    try:
+        return conn.execute(query).fetchdf()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Query Execution Error: {e}")
+
+# --------------------------------
+# ✅ FEATURED ANALYSIS OPERATIONS
+# --------------------------------
+
 @router.get("/extract-metadata/{table_name}")
 def extract_metadata(table_name: str):
+    """Extracts metadata from a DuckDB table."""
     try:
-        query = f"DESCRIBE {table_name}"
-        metadata = execute_query(query).to_dict(orient="records")
+        df = execute_query(f"SELECT * FROM {table_name}")
+        metadata = metadata_generator.generate_metadata(df)
         return {"metadata": metadata}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-# ✅ Anomaly Detection in DuckDB Tables
 @router.get("/detect-anomalies/{table_name}")
 def detect_anomalies(table_name: str):
+    """Detects anomalies in a DuckDB table."""
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
         anomalies = anomaly_detector.detect_anomalies(df)
-        return {"message": "Anomaly detection completed", "anomalies": anomalies.to_dict()}
+        return {"anomalies": anomalies.to_dict(orient="records")}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-# ✅ Generate Data Quality Rules from DuckDB
 @router.get("/data-quality-rules/{table_name}")
 def generate_quality_rules(table_name: str):
+    """Generates data quality rules for a DuckDB table."""
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
         rules = data_quality_generator.generate_quality_rules(df)
-        return {"message": "Data quality rules generated", "rules": rules}
+        return {"rules": rules}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-# ✅ Optimize Queries using AI
 @router.post("/optimize-query")
-def optimize_query(query_text: str):
+def optimize_query(query_text: str = Form(...)):
+    """Optimizes SQL queries using AI-based query optimizer."""
     try:
         optimized_query = query_optimizer.optimize_query(query_text)
         return {"optimized_query": optimized_query}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-# ✅ Vector Search in DuckDB Tables
 @router.get("/vector-search/{table_name}")
 def perform_vector_search(table_name: str, query: str):
+    """Performs vector-based search using embeddings in DuckDB."""
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
-        results = vector_search.search_vectors(df, query)
-        return {"message": "Vector search completed", "results": results}
+
+        # ✅ Generate embeddings for the search query
+        query_embedding = embedder.encode(query).tolist()
+
+        # ✅ Generate embeddings for each row & find similarity
+        df["vector"] = df.apply(lambda row: embedder.encode(" ".join(row.astype(str))).tolist(), axis=1)
+        df["similarity"] = df["vector"].apply(lambda vec: np.dot(vec, query_embedding) / (np.linalg.norm(vec) * np.linalg.norm(query_embedding)))
+
+        # ✅ Sort by similarity & return top results
+        results = df.sort_values(by="similarity", ascending=False).head(5).drop(columns=["vector", "similarity"])
+        
+        return {"results": results.to_dict(orient="records")}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

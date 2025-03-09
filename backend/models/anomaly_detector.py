@@ -1,14 +1,17 @@
 import pandas as pd
 import numpy as np
-import io
-from pycaret.anomaly import setup, create_model, assign_model
+from pyod.models.iforest import IForest
+from pyod.models.hbos import HBOS
+from sklearn.preprocessing import StandardScaler
 
 class AnomalyDetector:
     def __init__(self):
-        self.model = None
+        """Initialize both models for hybrid anomaly detection."""
+        self.iforest = IForest(contamination=0.02, random_state=42)  # ✅ Isolation Forest
+        self.hbos = HBOS(contamination=0.02)  # ✅ HBOS (super fast)
 
     def detect_anomalies(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Detect anomalies in a dataset and return a DataFrame."""
+        """Detect anomalies using hybrid Isolation Forest + HBOS."""
         if df.empty:
             raise ValueError("Dataset is empty")
 
@@ -17,22 +20,35 @@ class AnomalyDetector:
         if numeric_df.empty:
             raise ValueError("No numeric columns found in dataset")
 
-        # ✅ PyCaret Setup
-        setup(data=numeric_df, session_id=123, verbose=False)
-        self.model = create_model("iforest")  # ✅ Isolation Forest
-        anomalies_df = assign_model(self.model)
+        # ✅ Check Missing Values Before Processing
+        if numeric_df.isnull().values.any():
+            print(f"⚠️ Warning: Found {numeric_df.isnull().sum().sum()} missing values. Imputing with median.")
+            numeric_df = numeric_df.fillna(numeric_df.median())  # ✅ Replace NaN with median
 
-        if "Anomaly" not in anomalies_df.columns:
-            raise ValueError("Anomaly column missing from PyCaret output")
+        # ✅ Standardize Data
+        scaler = StandardScaler()
+        scaled_data = scaler.fit_transform(numeric_df)
 
-        # ✅ Extract only anomalous rows
+        # ✅ Fit Both Models
+        self.iforest.fit(scaled_data)
+        self.hbos.fit(scaled_data)
+
+        # ✅ Predict Anomalies
+        iforest_preds = self.iforest.predict(scaled_data)
+        hbos_preds = self.hbos.predict(scaled_data)
+
+        # ✅ Combine Predictions (Anomalous if detected by either model)
+        final_anomalies = np.logical_or(iforest_preds, hbos_preds).astype(int)
+
+        # ✅ Append Anomaly Labels
+        anomalies_df = df.copy()
+        anomalies_df["Anomaly"] = final_anomalies
+
+        # ✅ Extract Only Anomalies
         anomalies = anomalies_df[anomalies_df["Anomaly"] == 1].copy()
-        
-        if anomalies.empty:
-            return pd.DataFrame()  # ✅ Return an empty DataFrame if no anomalies are found
 
-        # ✅ Ensure JSON compliance (convert non-serializable values)
+        # ✅ Handle Infinite Values for JSON Compliance
         anomalies.replace([np.inf, -np.inf], np.nan, inplace=True)
         anomalies.fillna(0, inplace=True)
 
-        return anomalies  # ✅ Directly return DataFrame
+        return anomalies  # ✅ Return the DataFrame with anomalies
