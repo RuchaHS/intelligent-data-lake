@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+transformers
+pandas
+scikit-learn
+torch
+streamlit
+requests
+dataprep
+SQLAlchemy==2.0.38
+psycopg2-binary
+duckdb
+qdrant-client
