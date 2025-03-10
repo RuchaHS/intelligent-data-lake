@@ -12,3 +12,6 @@ psycopg2-binary
 duckdb
 qdrant-client
 sentence_transformers
+plotly 
+matplotlib 
+seaborn
