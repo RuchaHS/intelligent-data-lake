@@ -139,15 +139,28 @@ def extract_metadata(table_name: str):
 
 @router.get("/detect-anomalies/{table_name}")
 def detect_anomalies(table_name: str):
-    """Detects anomalies in a DuckDB table."""
+    """Detects anomalies in a DuckDB table and provides visual insights."""
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
-        anomalies = anomaly_detector.detect_anomalies(df)
+        
+        # ✅ Ensure detect_anomalies returns a tuple
+        anomalies, anomaly_summary, visualization_json = anomaly_detector.detect_anomalies(df)
 
+        # ✅ Ensure anomalies is a Pandas DataFrame
         if anomalies.empty:
-            return {"message": "No anomalies detected.", "anomalies": []}
+            return {
+                "message": "No anomalies detected.",
+                "anomalies": [],
+                "summary": "No significant deviations found in the dataset.",
+                "visualization": None
+            }
 
-        return {"message": "Anomaly detection completed.", "anomalies": anomalies.to_dict(orient="records")}
+        return {
+            "message": "Anomaly detection completed.",
+            "anomalies": anomalies.to_dict(orient="records"),
+            "summary": anomaly_summary,
+            "visualization": visualization_json
+        }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

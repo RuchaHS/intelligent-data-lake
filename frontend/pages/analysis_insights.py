@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 import json
 import streamlit.components.v1 as components
+import plotly.graph_objects as go
+import plotly.io as pio
 
 # ✅ Set page configuration (must be the first Streamlit command)
 st.set_page_config(page_title="🛢 Analysis / Insights", layout="wide")
@@ -53,13 +55,33 @@ def run():
     elif operation == "Anomaly Detection":
 
         if st.button("Detect Anomalies"):
-            with st.spinner("🔍 Detecting Anamolies..."):
+            with st.spinner("🔍 Detecting Anomalies..."):
                 response = requests.get(f"{BACKEND_URL}/detect-anomalies/{selected_table}")
+            
             if response.status_code == 200:
-                anomalies = response.json().get("anomalies", [])
+                response_data = response.json()
+                anomalies = response_data.get("anomalies", [])
+                summary = response_data.get("summary", {})
+                visualization_json = response_data.get("visualization", None)
+
                 if anomalies:
                     df_anomalies = pd.DataFrame(anomalies)
+                    st.subheader("🚨 Anomaly Detection Results")
                     st.dataframe(df_anomalies)
+
+                    # ✅ Display Explanation Summary
+                    if summary:
+                        st.markdown("### 📄 Explanation of Anomalies")
+                        st.markdown(f"**Total Records:** {summary.get('total_records', 'N/A')}")
+                        st.markdown(f"**Anomalies Detected:** {summary.get('anomalies_detected', 'N/A')}")
+                        st.markdown(f"**Anomaly Percentage:** {summary.get('anomaly_percentage', 'N/A')}%")
+                        st.info(summary.get("message", "No detailed explanation available."))
+
+                    # ✅ Display Plotly Graph
+                    if visualization_json:
+                        fig = pio.from_json(visualization_json)
+                        st.plotly_chart(fig, use_container_width=True)
+
                 else:
                     st.success("✅ No anomalies detected.")
             else:

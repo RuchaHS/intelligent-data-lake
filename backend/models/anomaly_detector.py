@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import plotly.express as px
 from pyod.models.iforest import IForest
 from pyod.models.hbos import HBOS
 from pyod.models.cblof import CBLOF
@@ -18,8 +19,8 @@ class AnomalyDetector:
             "lof": LOF(contamination=0.02)
         }
 
-    def detect_anomalies(self, df: pd.DataFrame) -> pd.DataFrame:
-        """Detect anomalies using a hybrid ensemble of PyOD models."""
+    def detect_anomalies(self, df: pd.DataFrame) -> tuple:
+        """Detect anomalies using a hybrid ensemble of PyOD models and explain them visually."""
         if df.empty:
             raise ValueError("Dataset is empty")
 
@@ -28,7 +29,7 @@ class AnomalyDetector:
         if numeric_df.empty:
             raise ValueError("No numeric columns found in dataset")
 
-        # ✅ Check and handle missing values
+        # ✅ Handle missing values
         if numeric_df.isnull().values.any():
             print(f"⚠️ Warning: Found {numeric_df.isnull().sum().sum()} missing values. Imputing with median.")
             numeric_df = numeric_df.fillna(numeric_df.median())  # ✅ Replace NaN with median
@@ -58,4 +59,25 @@ class AnomalyDetector:
         anomalies.replace([np.inf, -np.inf], np.nan, inplace=True)
         anomalies.fillna(0, inplace=True)
 
-        return anomalies  # ✅ Return DataFrame with detected anomalies
+        # ✅ Generate a basic explanation
+        anomaly_count = anomalies.shape[0]
+        total_count = df.shape[0]
+        percentage_anomalies = (anomaly_count / total_count) * 100
+
+        explanation = {
+            "total_records": total_count,
+            "anomalies_detected": anomaly_count,
+            "anomaly_percentage": round(percentage_anomalies, 2),
+            "message": f"Detected {anomaly_count} anomalies out of {total_count} records, which is {round(percentage_anomalies, 2)}% of the dataset."
+        }
+
+        # ✅ Generate a scatter plot using plotly (choose first numeric column for visualization)
+        first_numeric_col = numeric_df.columns[0] if not numeric_df.empty else None
+        fig_json = None
+        if first_numeric_col:
+            fig = px.scatter(anomalies_df, x=first_numeric_col, y=first_numeric_col, color="Anomaly",
+                            title=f"Anomaly Detection: {first_numeric_col}",
+                            labels={"Anomaly": "Anomaly Status"})
+            fig_json = fig.to_json()
+
+        return anomalies, explanation, fig_json  # ✅ Now returns a tuple
