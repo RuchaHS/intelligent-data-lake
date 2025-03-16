@@ -36,4 +36,3 @@ brew services restart postgresql
 netstat -an | grep 5432
 sudo nano /etc/postgresql/{your-version}/main/postgresql.conf
 pip install duckdb fastapi uvicorn streamlit requests pandas pycaret
-
