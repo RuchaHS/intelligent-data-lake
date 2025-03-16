@@ -12,6 +12,7 @@ from models.anomaly_detector import AnomalyDetector
 from models.data_quality_rules_generator import DataQualityGenerator
 from models.query_optimizer import QueryOptimizer
 from models.vector_search import VectorSearch
+from models.auto_cleaning import AutoCleaner
 
 router = APIRouter(prefix="/db", tags=["Database Processing"])
 
@@ -25,6 +26,7 @@ data_quality_generator = DataQualityGenerator()
 query_optimizer = QueryOptimizer()
 vector_search = VectorSearch()
 data_profiler = DataProfiler()
+auto_cleaner = AutoCleaner()
 
 # ✅ Load Embedding Model
 embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
@@ -41,16 +43,14 @@ def execute_query(query: str):
         raise HTTPException(status_code=500, detail=f"Query Execution Error: {e}")
     
 @router.post("/upload-file")
-async def upload_file(file: UploadFile = File(...), table_name: str = Form(...)):
-    """Uploads CSV, JSON, Parquet, or Excel file into DuckDB and ensures data consistency."""
+async def upload_file(file: UploadFile = File(...), table_name: str = Form(...), auto_clean: str = Form(...)):
+    """Uploads CSV, JSON, or Excel file into DuckDB and optionally cleans it before storing."""
     try:
         file_ext = file.filename.split(".")[-1].lower()
         if file_ext == "csv":
             df = pd.read_csv(io.StringIO(file.file.read().decode("utf-8")))
         elif file_ext == "json":
             df = pd.read_json(io.StringIO(file.file.read().decode("utf-8")))
-        elif file_ext == "parquet":
-            df = pd.read_parquet(io.BytesIO(file.file.read()))
         elif file_ext in ["xls", "xlsx"]:
             df = pd.read_excel(io.BytesIO(file.file.read()), engine="openpyxl")
         else:
@@ -59,13 +59,12 @@ async def upload_file(file: UploadFile = File(...), table_name: str = Form(...))
         if df.empty:
             raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
-        # ✅ Convert column names to lowercase & remove spaces
-        df.columns = [col.lower().replace(" ", "_") for col in df.columns]
+        # ✅ Perform Auto-Cleaning if Checkbox is Enabled
+        if auto_clean.lower() == "true":
+            df = auto_cleaner.clean_data(df)
 
-        # ✅ Ensure Arrow Compatibility (Fix Data Types)
-        for col in df.columns:
-            if df[col].dtype == "object":
-                df[col] = df[col].astype(str)  # Convert all object-type columns to string
+        # ✅ Convert column names to lowercase & replace spaces
+        df.columns = [col.lower().replace(" ", "_") for col in df.columns]
 
         # ✅ Store in DuckDB
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} AS SELECT * FROM df")
@@ -74,7 +73,7 @@ async def upload_file(file: UploadFile = File(...), table_name: str = Form(...))
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File Upload Error: {e}")
-
+    
 @router.get("/list-tables")
 def list_tables():
     """Lists all tables in DuckDB."""

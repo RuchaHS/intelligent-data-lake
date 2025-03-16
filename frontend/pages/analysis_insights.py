@@ -6,9 +6,6 @@ import streamlit.components.v1 as components
 import plotly.graph_objects as go
 import plotly.io as pio
 
-# ✅ Set page configuration (must be the first Streamlit command)
-st.set_page_config(page_title="🛢 Analysis / Insights", layout="wide")
-
 BACKEND_URL = "http://localhost:8000/db"
 
 def run():
