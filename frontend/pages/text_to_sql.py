@@ -6,7 +6,7 @@ BACKEND_URL = "http://localhost:8000/db"
 
 def run():
     """Page for Text-to-SQL and SQL-to-Text translation."""
-    st.title("📝 Text-to-SQL & SQL Explanation")
+    st.title("📝 Text-to-SQL & SQL-to-Text")
 
     # 🔹 Select Translation Type
     translation_type = st.radio("Choose an option:", ["Text-to-SQL", "SQL Explanation"])

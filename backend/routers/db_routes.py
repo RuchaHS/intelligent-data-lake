@@ -39,10 +39,10 @@ def execute_query(query: str):
         return conn.execute(query).fetchdf()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Query Execution Error: {e}")
-
+    
 @router.post("/upload-file")
 async def upload_file(file: UploadFile = File(...), table_name: str = Form(...)):
-    """Uploads CSV, JSON, Parquet, or Excel file into DuckDB and saves embeddings."""
+    """Uploads CSV, JSON, Parquet, or Excel file into DuckDB and ensures data consistency."""
     try:
         file_ext = file.filename.split(".")[-1].lower()
         if file_ext == "csv":
@@ -59,13 +59,16 @@ async def upload_file(file: UploadFile = File(...), table_name: str = Form(...))
         if df.empty:
             raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
+        # ✅ Convert column names to lowercase & remove spaces
         df.columns = [col.lower().replace(" ", "_") for col in df.columns]
-        conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} AS SELECT * FROM df")
 
-        # ✅ Generate & Store Embeddings
-        df["vector"] = df.apply(lambda row: embedder.encode(" ".join(row.astype(str))).tolist(), axis=1)
-        conn.execute(f"ALTER TABLE {table_name} ADD COLUMN vector ARRAY(float)")
-        conn.executemany(f"UPDATE {table_name} SET vector = ? WHERE rowid = ?", list(zip(df["vector"], range(1, len(df) + 1))))
+        # ✅ Ensure Arrow Compatibility (Fix Data Types)
+        for col in df.columns:
+            if df[col].dtype == "object":
+                df[col] = df[col].astype(str)  # Convert all object-type columns to string
+
+        # ✅ Store in DuckDB
+        conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} AS SELECT * FROM df")
 
         return {"message": f"File `{file.filename}` uploaded to `{table_name}` successfully!", "columns": df.columns.tolist()}
 
@@ -85,10 +88,15 @@ def list_tables():
 def preview_table(table_name: str):
     """Fetches first 10 rows of a DuckDB table for preview."""
     try:
-        df = execute_query(f"SELECT * FROM {table_name} LIMIT 20")
-        return {"preview": df.to_dict(orient="records")}
+        df = execute_query(f"SELECT * FROM {table_name} LIMIT 10")
+
+        # ✅ Replace problematic float values for JSON compliance
+        df.replace([np.inf, -np.inf], None, inplace=True)  # Convert `inf` values to `None`
+        df.fillna("null", inplace=True)  # Convert `NaN` values to a string "null"
+
+        return {"preview": df.to_dict(orient="records")}  # ✅ Return safe JSON data
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=f"Error fetching table preview: {e}")
 
 @router.post("/run-query")
 def run_query(query_text: str = Form(...)):
@@ -148,6 +156,7 @@ def detect_anomalies(table_name: str):
 def generate_quality_rules(table_name: str):
     """Generates data quality rules for a DuckDB table."""
     try:
+        print("Trying to get data quality rules")
         df = execute_query(f"SELECT * FROM {table_name}")
         rules = data_quality_generator.generate_quality_rules(df)
         return {"rules": rules}

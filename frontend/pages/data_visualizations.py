@@ -13,22 +13,15 @@ def run():
     """Data Visualization Page for Intelligent Data Lake."""
     
     # ✅ Configure Streamlit Page
-    st.set_page_config(page_title="📊 Data Visualization", layout="wide")
     st.sidebar.title("📈 Data Visualization")
 
-    # 🔹 Load available tables
-    @st.cache_data
-    def get_tables():
-        response = requests.get(f"{BACKEND_URL}/list-tables")
-        if response.status_code == 200:
-            return response.json()["tables"]
-        return []
-
-    tables = get_tables()
-
     # ✅ Step 1: Select Table
-    st.sidebar.subheader("📌 Select Table")
-    selected_table = st.sidebar.selectbox("Choose a table:", ["(Choose a table)"] + tables)
+    tables_response = requests.get(f"{BACKEND_URL}/list-tables")
+
+    if tables_response.status_code == 200:
+        tables = tables_response.json()["tables"]
+        selected_table = st.selectbox("📌 Select a table:", ["(Choose a table)"] + tables)
+
 
     if selected_table and selected_table != "(Choose a table)":
         # 🔹 Load data from selected table
@@ -116,17 +109,8 @@ def run():
 
             # Convert Plot to Image
             img_buffer = io.BytesIO()
-            fig.write_image(img_buffer, format="png") if fig else None
-            st.sidebar.download_button(label="📷 Download Chart (PNG)", data=img_buffer, file_name=f"{chart_type}.png", mime="image/png")
-
-            # Convert to PDF (Disabled if pdfkit is unavailable)
-            try:
-                import pdfkit
-                pdf_buffer = io.BytesIO()
-                pdfkit.from_string(st.get_report_ctx().enqueue_text, pdf_buffer)
-                st.sidebar.download_button(label="📄 Download Report (PDF)", data=pdf_buffer, file_name=f"{chart_type}_report.pdf", mime="application/pdf")
-            except ImportError:
-                st.warning("⚠️ PDF generation is disabled. Install `pdfkit` to enable.")
+            # fig.write_image(img_buffer, format="png") if fig else None
+            # st.sidebar.download_button(label="📷 Download Chart (PNG)", data=img_buffer, file_name=f"{chart_type}.png", mime="image/png")
 
             # ✅ Step 6: User Customization
             with st.expander("⚙️ Customize Graph"):

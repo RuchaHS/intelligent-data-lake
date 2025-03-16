@@ -11,23 +11,39 @@ BACKEND_URL = "http://localhost:8000/db"
 
 def run():
     """Runs the DuckDB Integration Dashboard"""
-    st.title("🛢 DuckDB Integration Dashboard")
+    st.title("🛢 Analysis & Insights")
 
     # ✅ Select Database Operation
     operation = st.selectbox("📊 Choose an operation:", [
         "Extract Metadata",
         "Anomaly Detection",
-        "Data Profiling",  # ✅ Added Data Profiling Feature
-        "Data Quality Rules",
-        "Optimize Query",
-        "Vector Search"
+        "Data Profiling",
+        "Data Quality Rules"
     ])
 
+    tables_response = requests.get(f"{BACKEND_URL}/list-tables")
+
+    if tables_response.status_code == 200:
+        tables = tables_response.json()["tables"]
+        selected_table = st.selectbox("📌 Select a table:", ["(Choose a table)"] + tables)
+
+        if selected_table != "(Choose a table)":
+            st.subheader(f"📋 Table Preview: `{selected_table}`")
+            preview_response = requests.get(f"{BACKEND_URL}/preview-table/{selected_table}")
+            if preview_response.status_code == 200:
+                df_preview = pd.DataFrame(preview_response.json()["preview"])
+                
+                # ✅ Fix: Replace null values for proper rendering
+                df_preview.fillna("N/A", inplace=True)  # Replace "null" with "N/A"
+    
+                st.dataframe(df_preview)
+    
     # ✅ Metadata Extraction
     if operation == "Extract Metadata":
-        table_name = st.text_input("Enter Table Name:")
+
         if st.button("Extract Metadata"):
-            response = requests.get(f"{BACKEND_URL}/extract-metadata/{table_name}")
+            with st.spinner("🔍 Extracting metadata..."):
+                response = requests.get(f"{BACKEND_URL}/extract-metadata/{selected_table}")
             if response.status_code == 200:
                 st.json(response.json())
             else:
@@ -35,9 +51,10 @@ def run():
 
     # ✅ Anomaly Detection
     elif operation == "Anomaly Detection":
-        table_name = st.text_input("Enter Table Name:")
+
         if st.button("Detect Anomalies"):
-            response = requests.get(f"{BACKEND_URL}/detect-anomalies/{table_name}")
+            with st.spinner("🔍 Detecting Anamolies..."):
+                response = requests.get(f"{BACKEND_URL}/detect-anomalies/{selected_table}")
             if response.status_code == 200:
                 anomalies = response.json().get("anomalies", [])
                 if anomalies:
@@ -50,11 +67,10 @@ def run():
 
 
     elif operation == "Data Profiling":
-        table_name = st.text_input("Enter Table Name:")
 
         if st.button("Generate Data Profile"):
             with st.spinner("🔍 Generating data profile..."):
-                response = requests.get(f"{BACKEND_URL}/profile-data/{table_name}")
+                response = requests.get(f"{BACKEND_URL}/profile-data/{selected_table}")
 
             if response.status_code == 200:
                 profiling_data = response.json()
@@ -66,16 +82,16 @@ def run():
 
                     # ✅ Display download & view options
                     st.markdown("### 📥 Download & View Profiling Report")
-                    html_download_url = f"{BACKEND_URL}/download-profile-report/{table_name}/html"
-                    json_download_url = f"{BACKEND_URL}/download-profile-report/{table_name}/json"
-                    view_report_url = f"{BACKEND_URL}/view-profile-report/{table_name}"
+                    html_download_url = f"{BACKEND_URL}/download-profile-report/{selected_table}/html"
+                    json_download_url = f"{BACKEND_URL}/download-profile-report/{selected_table}/json"
+                    view_report_url = f"{BACKEND_URL}/view-profile-report/{selected_table}"
 
                     st.markdown(f"📄 [Download as HTML]({html_download_url})", unsafe_allow_html=True)
                     st.markdown(f"📜 [Download as JSON]({json_download_url})", unsafe_allow_html=True)
 
                     # ✅ Embed Report in Streamlit UI using iframe
                     st.markdown("### 🌐 Interactive Report")
-                    components.iframe(view_report_url, height=1000, scrolling=True)  # ✅ Display HTML report in iframe
+                    components.iframe(view_report_url, height=1200, scrolling=True)  # ✅ Display HTML report in iframe
                 else:
                     st.warning("⚠️ Profiling report paths not available.")
             else:
@@ -83,35 +99,18 @@ def run():
 
     # ✅ Data Quality Rules
     elif operation == "Data Quality Rules":
-        table_name = st.text_input("Enter Table Name:")
+
         if st.button("Generate Rules"):
-            response = requests.get(f"{BACKEND_URL}/data-quality-rules/{table_name}")
+            with st.spinner("🔍Recommending data quality rules.."):
+                response = requests.get(f"{BACKEND_URL}/data-quality-rules/{selected_table}")
+                print(response)
+
             if response.status_code == 200:
                 rules = response.json()["rules"]
                 st.json(rules)
             else:
                 st.error(response.text)
 
-    # ✅ Query Optimization
-    elif operation == "Optimize Query":
-        query_text = st.text_area("Enter SQL Query:")
-        if st.button("Optimize Query"):
-            response = requests.post(f"{BACKEND_URL}/optimize-query", data={"query_text": query_text})
-            if response.status_code == 200:
-                st.text_area("Optimized Query:", response.json()["optimized_query"])
-            else:
-                st.error(response.text)
-
-    # ✅ Vector Search
-    elif operation == "Vector Search":
-        table_name = st.text_input("Enter Table Name:")
-        query = st.text_input("Enter Search Query:")
-        if st.button("Perform Vector Search"):
-            response = requests.get(f"{BACKEND_URL}/vector-search/{table_name}", params={"query": query})
-            if response.status_code == 200:
-                st.json(response.json()["results"])
-            else:
-                st.error(response.text)
 
 # ✅ Ensure the script runs only when executed directly
 if __name__ == "__main__":

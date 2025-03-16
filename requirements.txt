@@ -15,3 +15,6 @@ sentence_transformers
 plotly 
 matplotlib 
 seaborn
+ydata_profiling
+pydantic
+jinja2-3.1.6
