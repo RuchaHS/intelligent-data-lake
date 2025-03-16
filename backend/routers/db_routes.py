@@ -3,7 +3,9 @@ import duckdb
 import pandas as pd
 import io
 import numpy as np
-from sentence_transformers import SentenceTransformer  # ✅ For embeddings
+from fastapi.responses import FileResponse
+from sentence_transformers import SentenceTransformer
+from models.data_profiling import DataProfiler
 from database import DB_PATH
 from models.metadata_generator import MetadataGenerator
 from models.anomaly_detector import AnomalyDetector
@@ -22,6 +24,7 @@ anomaly_detector = AnomalyDetector()
 data_quality_generator = DataQualityGenerator()
 query_optimizer = QueryOptimizer()
 vector_search = VectorSearch()
+data_profiler = DataProfiler()
 
 # ✅ Load Embedding Model
 embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
@@ -31,7 +34,7 @@ embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 # --------------------------------
 
 def execute_query(query: str):
-    """Executes SQL query in DuckDB and returns DataFrame."""
+    """Executes SQL query in DuckDB and returns results as a Pandas DataFrame."""
     try:
         return conn.execute(query).fetchdf()
     except Exception as e:
@@ -39,7 +42,7 @@ def execute_query(query: str):
 
 @router.post("/upload-file")
 async def upload_file(file: UploadFile = File(...), table_name: str = Form(...)):
-    """Uploads CSV, JSON, Parquet, or Excel file into DuckDB."""
+    """Uploads CSV, JSON, Parquet, or Excel file into DuckDB and saves embeddings."""
     try:
         file_ext = file.filename.split(".")[-1].lower()
         if file_ext == "csv":
@@ -56,11 +59,13 @@ async def upload_file(file: UploadFile = File(...), table_name: str = Form(...))
         if df.empty:
             raise HTTPException(status_code=400, detail="Uploaded file is empty.")
 
-        # ✅ Convert column names to lowercase (avoid SQL conflicts)
         df.columns = [col.lower().replace(" ", "_") for col in df.columns]
-
-        # ✅ Store in DuckDB
         conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} AS SELECT * FROM df")
+
+        # ✅ Generate & Store Embeddings
+        df["vector"] = df.apply(lambda row: embedder.encode(" ".join(row.astype(str))).tolist(), axis=1)
+        conn.execute(f"ALTER TABLE {table_name} ADD COLUMN vector ARRAY(float)")
+        conn.executemany(f"UPDATE {table_name} SET vector = ? WHERE rowid = ?", list(zip(df["vector"], range(1, len(df) + 1))))
 
         return {"message": f"File `{file.filename}` uploaded to `{table_name}` successfully!", "columns": df.columns.tolist()}
 
@@ -71,8 +76,8 @@ async def upload_file(file: UploadFile = File(...), table_name: str = Form(...))
 def list_tables():
     """Lists all tables in DuckDB."""
     try:
-        tables = conn.execute("SHOW TABLES").fetchall()
-        return {"tables": [t[0] for t in tables]}
+        tables = conn.execute("SHOW TABLES").fetchdf()["name"].tolist()
+        return {"tables": tables}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -80,7 +85,7 @@ def list_tables():
 def preview_table(table_name: str):
     """Fetches first 10 rows of a DuckDB table for preview."""
     try:
-        df = execute_query(f"SELECT * FROM {table_name} LIMIT 10")
+        df = execute_query(f"SELECT * FROM {table_name} LIMIT 20")
         return {"preview": df.to_dict(orient="records")}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -89,11 +94,10 @@ def preview_table(table_name: str):
 def run_query(query_text: str = Form(...)):
     """Executes a SQL query on DuckDB."""
     try:
-        if "DROP" in query_text.upper() or "DELETE" in query_text.upper():
+        if any(keyword in query_text.upper() for keyword in ["DROP", "DELETE", "ALTER"]):
             raise HTTPException(status_code=400, detail="🚨 Dangerous query detected! Only SELECT statements are allowed.")
 
         df = execute_query(query_text)
-
         df.replace([np.inf, -np.inf], np.nan, inplace=True)
         df.fillna("null", inplace=True)
 
@@ -131,7 +135,12 @@ def detect_anomalies(table_name: str):
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
         anomalies = anomaly_detector.detect_anomalies(df)
-        return {"anomalies": anomalies.to_dict(orient="records")}
+
+        if anomalies.empty:
+            return {"message": "No anomalies detected.", "anomalies": []}
+
+        return {"message": "Anomaly detection completed.", "anomalies": anomalies.to_dict(orient="records")}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -154,23 +163,60 @@ def optimize_query(query_text: str = Form(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# --------------------------------
+# ✅ data Profiling
+# --------------------------------
+@router.get("/profile-data/{table_name}")
+def profile_data(table_name: str):
+    """Generates a data profiling report for a DuckDB table."""
+    try:
+        df = execute_query(f"SELECT * FROM {table_name}")
+
+        if df.empty:
+            return {"message": "Table is empty", "profiling_report": None}
+
+        profiling_result = data_profiler.generate_profile_report(df, table_name)
+        return profiling_result
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/download-profile-report/{table_name}/{format}")
+def download_profile_report(table_name: str, format: str):
+    """Allows users to download the data profiling report in HTML or JSON."""
+    try:
+        if format == "html":
+            return data_profiler.get_html_report(table_name)
+        elif format == "json":
+            return data_profiler.get_json_report(table_name)
+        else:
+            raise HTTPException(status_code=400, detail="Invalid format. Choose 'html' or 'json'.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/view-profile-report/{table_name}")
+def view_profile_report(table_name: str):
+    """Embeds the profiling report inside an iframe for visualization."""
+    return data_profiler.render_html_report(table_name)
+
+
 @router.get("/vector-search/{table_name}")
 def perform_vector_search(table_name: str, query: str):
     """Performs vector-based search using embeddings in DuckDB."""
     try:
         df = execute_query(f"SELECT * FROM {table_name}")
 
-        # ✅ Generate embeddings for the search query
+        if df.empty:
+            return {"message": "Table is empty", "results": []}
+
         query_embedding = embedder.encode(query).tolist()
 
-        # ✅ Generate embeddings for each row & find similarity
         df["vector"] = df.apply(lambda row: embedder.encode(" ".join(row.astype(str))).tolist(), axis=1)
         df["similarity"] = df["vector"].apply(lambda vec: np.dot(vec, query_embedding) / (np.linalg.norm(vec) * np.linalg.norm(query_embedding)))
 
-        # ✅ Sort by similarity & return top results
         results = df.sort_values(by="similarity", ascending=False).head(5).drop(columns=["vector", "similarity"])
-        
-        return {"results": results.to_dict(orient="records")}
+
+        return {"message": "Vector search completed", "results": results.to_dict(orient="records")}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -1,56 +1,21 @@
-import faiss
-import numpy as np
-import pandas as pd
 import duckdb
-from transformers import AutoTokenizer, AutoModel
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
 class VectorSearch:
-    def __init__(self):
-        # ✅ Load Pretrained Sentence Embedding Model
-        model_name = "sentence-transformers/all-MiniLM-L6-v2"
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModel.from_pretrained(model_name)
-        
-        # ✅ FAISS Index for Efficient Search
-        self.index = faiss.IndexFlatL2(384)  # 384 = embedding dimension
-        self.metadata = []  # Stores metadata for lookup
+    def __init__(self, db_path="intelligent_data_lake.duckdb"):
+        self.conn = duckdb.connect(db_path)
+        self.embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
 
-    def embed_text(self, text):
-        """ Converts text into vector embedding using Transformer model. """
-        inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True)
-        outputs = self.model(**inputs)
-        return outputs.last_hidden_state.mean(dim=1).detach().numpy()
+    def search_vectors(self, table_name, query):
+        df = self.conn.execute(f"SELECT * FROM {table_name}").fetchdf()
 
-    def build_index_from_csv(self, file_path):
-        """ Builds FAISS index from uploaded CSV data. """
-        df = pd.read_csv(file_path)
-        self.metadata = df.columns.tolist()  # Store column names as metadata
-        embeddings = np.array([self.embed_text(col) for col in self.metadata])
-        
-        # ✅ Update FAISS Index
-        self.index.reset()  # Clear existing index
-        self.index.add(embeddings)
-        return {"message": "FAISS index built from CSV", "columns": self.metadata}
+        if df.empty:
+            return {"message": "Table is empty", "results": []}
 
-    def build_index_from_duckdb(self, db_path, table_name):
-        """ Builds FAISS index from DuckDB table schema. """
-        conn = duckdb.connect(db_path)
-        query = f"DESCRIBE {table_name}"
-        df = conn.execute(query).fetchdf()
-        
-        self.metadata = df["column_name"].tolist()  # Extract column names
-        embeddings = np.array([self.embed_text(col) for col in self.metadata])
-        
-        # ✅ Update FAISS Index
-        self.index.reset()  # Clear existing index
-        self.index.add(embeddings)
-        return {"message": "FAISS index built from DuckDB", "columns": self.metadata}
+        query_embedding = self.embedder.encode(query).tolist()
+        df["vector"] = df.apply(lambda row: self.embedder.encode(" ".join(row.astype(str))).tolist(), axis=1)
+        df["similarity"] = df["vector"].apply(lambda vec: np.dot(vec, query_embedding) / (np.linalg.norm(vec) * np.linalg.norm(query_embedding)))
 
-    def search(self, query, k=3):
-        """ Searches for the closest column names based on query embedding. """
-        if not self.metadata:
-            return {"error": "Index not built yet. Please build an index first."}
-        
-        query_embedding = self.embed_text(query)
-        _, indices = self.index.search(query_embedding, k)
-        return [self.metadata[i] for i in indices[0]]
+        results = df.sort_values(by="similarity", ascending=False).head(5).drop(columns=["vector", "similarity"])
+        return {"message": "Vector search completed", "results": results.to_dict(orient="records")}
