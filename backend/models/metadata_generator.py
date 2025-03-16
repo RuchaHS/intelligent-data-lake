@@ -31,7 +31,7 @@ class MetadataGenerator:
         sample_data = df.head(10).to_json(orient="records")
 
         prompt = f"""
-        You are an AI expert in metadata extraction. Given a sample dataset (first 10 rows) in JSON format:
+        You are an AI expert in metadata extraction. Given a sample dataset in JSON format:
         {sample_data}
 
         Extract metadata **STRICTLY** in JSON format. Do **NOT** include extra explanations or text.
@@ -50,13 +50,11 @@ class MetadataGenerator:
             "missing_values": {{"Column1": 2, "Column2": 0}}
         }},
         "administrative_metadata": {{
-            "total_rows": 100,
             "total_columns": 5,
             "file_size_kb": 10
         }},
         "structural_metadata": {{
-            "primary_key": "Column1",
-            "duplicate_rows": 0
+            "primary_key": "Column1"
         }}
         }}
 

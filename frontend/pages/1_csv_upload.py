@@ -18,7 +18,6 @@ if uploaded_file:
         "Metadata Extraction",
         "Anomaly Detection",
         "Data Quality Rules",
-        "Optimize Query",
         "Vector Search"
     ])
 
@@ -60,19 +59,6 @@ if uploaded_file:
                 rules = response.json()["rules"]
                 st.json(rules)
                 st.download_button("📥 Download Data Quality Rules (JSON)", json.dumps(rules, indent=4), "data_quality_rules.json", "application/json")
-            else:
-                st.error(response.text)
-
-    # ✅ Query Optimization
-    elif analysis_type == "Optimize Query":
-        query_text = st.text_area("💬 Enter SQL Query:")
-        if st.button("Optimize Query"):
-            with st.spinner("🚀 Optimizing query..."):
-                response = requests.post(f"{BACKEND_URL}/optimize-query", data={"query_text": query_text})
-            if response.status_code == 200:
-                optimized_query = response.json()["optimized_query"]
-                st.text_area("✅ Optimized Query:", optimized_query, height=150)
-                st.download_button("📥 Download Optimized Query", optimized_query, "optimized_query.sql", "text/plain")
             else:
                 st.error(response.text)
 
