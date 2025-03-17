@@ -14,7 +14,7 @@ def run():
     tables_response = requests.get(f"{BACKEND_URL}/list-tables")
     if tables_response.status_code == 200:
         tables = tables_response.json()["tables"]
-        selected_table = st.sidebar.radio("Select a table:", tables)
+        selected_table = st.sidebar.selectbox("Select a table:", tables)
 
     # ✅ File Upload Section
     st.subheader("📂 Upload File")
