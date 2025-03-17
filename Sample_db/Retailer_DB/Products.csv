@@ -1,0 +1,116 @@
+productCode,productName,productLine,productScale,productVendor,productDescription,quantityInStock,buyPrice,MSRP
+PRD001,Bluetooth Speaker,Office Supplies,1:4,InnovateX,Lightweight and compact for easy portability.,164,449.0,1021.57
+PRD002,Smartphone Stand,Electronics,1:4,HyperGear,Lightweight and compact for easy portability.,387,134.12,226.21
+PRD003,Smartwatch,Electronics,1:10,NanoElectronics,Enhanced for professional and personal use.,415,94.84,162.41
+PRD004,Gaming Chair,Electronics,1:5,TechCorp,Built with premium materials for long-term use.,-32,183.0,307.3
+PRD005,Gaming Keyboard,Electronics,1:4,FutureTech,Lightweight and compact for easy portability.,277,65.19,156.01
+PRD006,Webcam,Wearable Tech,1:4,HyperGear,Enhanced for professional and personal use.,103,382.61,678.21
+PRD007,USB-C Hub,Accessories,1:20,TechCorp,Lightweight and compact for easy portability.,434,208.52,280.78
+PRD008,Fitness Tracker,Electronics,1:5,InnovateX,Built with premium materials for long-term use.,133,303.47,426.0
+PRD009,Fitness Tracker,Electronics,1:10,InnovateX,Built with premium materials for long-term use.,184,245.03,391.2
+PRD010,Laptop Cooling Pad,Accessories,1:4,FutureTech,Lightweight and compact for easy portability.,287,132.22,266.92
+PRD011,Smartwatch,Wearable Tech,1:20,InnovateX,Designed for durability and performance.,115,184.89,435.87
+PRD012,Gaming Chair,Electronics,1:4,NanoElectronics,Enhanced for professional and personal use.,464,483.87,1127.43
+PRD013,USB-C Hub,Audio,1:2,GigaByte,Built with premium materials for long-term use.,145,341.17,428.35
+PRD014,Laptop Cooling Pad,Audio,1:10,NanoElectronics,Designed for durability and performance.,41,116.01,154.62
+PRD015,Mechanical Keyboard,Accessories,1:2,GigaByte,Designed for durability and performance.,475,7.21,12.22
+PRD016,Wireless Mouse,Wearable Tech,1:4,HyperGear,Built with premium materials for long-term use.,165,130.15,261.88
+PRD017,Wireless Mouse,Accessories,1:4,TechCorp,High-quality product with advanced features.,122,383.53,945.7
+PRD018,Smartwatch,Wearable Tech,1:20,HyperGear,Built with premium materials for long-term use.,181,211.97,271.36
+PRD019,Laptop Cooling Pad,Audio,1:20,InnovateX,Enhanced for professional and personal use.,175,404.77,589.08
+PRD020,VR Headset,Audio,1:4,TechCorp,Lightweight and compact for easy portability.,381,339.34,845.23
+PRD021,VR Headset,Electronics,1:10,HyperGear,Designed for durability and performance.,224,128.09,296.55
+PRD022,Wireless Charger,Office Supplies,1:10,NanoElectronics,Lightweight and compact for easy portability.,478,205.08,417.15
+PRD023,Graphics Tablet,Wearable Tech,1:4,GigaByte,High-quality product with advanced features.,272,300.95,536.62
+PRD024,Wireless Mouse,Wearable Tech,1:4,FutureTech,Designed for durability and performance.,121,307.27,490.95
+PRD025,External Hard Drive,Accessories,1:10,HyperGear,Designed for durability and performance.,88,409.74,591.11
+PRD026,Bluetooth Speaker,Electronics,1:2,NanoElectronics,Enhanced for professional and personal use.,128,446.06,587.12
+PRD027,Fitness Tracker,Gaming,1:20,TechCorp,Designed for durability and performance.,98,373.59,872.39
+PRD028,USB-C Hub,Gaming,1:20,TechCorp,Lightweight and compact for easy portability.,128,314.45,749.29
+PRD029,Bluetooth Speaker,Electronics,1:20,NanoElectronics,Enhanced for professional and personal use.,64,333.58,782.59
+PRD030,Portable Monitor,Accessories,1:4,NanoElectronics,Designed for durability and performance.,413,357.69,654.32
+PRD031,External Hard Drive,Electronics,1:2,GigaByte,Enhanced for professional and personal use.,163,260.98,480.4
+PRD032,Noise Cancelling Headphones,Gaming,1:5,GigaByte,Designed for durability and performance.,400,90.06,210.51
+PRD033,Fitness Tracker,Accessories,1:20,GigaByte,Built with premium materials for long-term use.,427,14.35,33.86
+PRD034,Wireless Charger,Wearable Tech,1:20,InnovateX,Enhanced for professional and personal use.,385,264.58,642.71
+PRD035,Wireless Mouse,Audio,1:5,GigaByte,Lightweight and compact for easy portability.,145,374.29,480.69
+PRD036,Portable Monitor,Audio,1:20,GigaByte,Lightweight and compact for easy portability.,368,275.36,643.93
+PRD037,Smartphone Stand,Electronics,1:20,NanoElectronics,Enhanced for professional and personal use.,456,335.91,771.53
+PRD038,Webcam,Office Supplies,1:20,FutureTech,Lightweight and compact for easy portability.,282,132.25,279.73
+PRD039,Bluetooth Speaker,Audio,1:5,HyperGear,Built with premium materials for long-term use.,159,285.75,368.94
+PRD040,Graphics Tablet,Office Supplies,1:4,NanoElectronics,Built with premium materials for long-term use.,65,371.17,880.82
+PRD041,USB-C Hub,Electronics,1:10,NanoElectronics,Built with premium materials for long-term use.,371,456.77,927.8
+PRD042,Gaming Chair,Gaming,1:2,NanoElectronics,Lightweight and compact for easy portability.,377,297.02,374.9
+PRD043,Laptop Cooling Pad,Audio,1:2,InnovateX,Lightweight and compact for easy portability.,345,86.07,162.88
+PRD044,Laptop Cooling Pad,Electronics,1:10,FutureTech,Designed for durability and performance.,367,488.21,686.05
+PRD045,Laptop Cooling Pad,Electronics,1:4,TechCorp,High-quality product with advanced features.,379,364.28,630.2
+PRD046,Wireless Charger,Office Supplies,1:2,HyperGear,Designed for durability and performance.,129,455.78,769.85
+PRD047,Wireless Charger,Audio,1:5,FutureTech,Designed for durability and performance.,484,164.65,371.04
+PRD048,Graphics Tablet,Accessories,1:5,HyperGear,Enhanced for professional and personal use.,167,378.61,748.92
+PRD049,VR Headset,Electronics,1:10,InnovateX,Built with premium materials for long-term use.,300,269.65,537.8
+PRD050,WiFi Router,Gaming,1:2,NanoElectronics,Enhanced for professional and personal use.,-37,492.16,1094.68
+PRD051,Graphics Tablet,Audio,1:5,HyperGear,Designed for durability and performance.,447,113.34,139.51
+PRD052,VR Headset,Office Supplies,1:10,HyperGear,Designed for durability and performance.,79,299.59,592.05
+PRD053,Gaming Keyboard,Wearable Tech,1:2,InnovateX,High-quality product with advanced features.,155,83.5,143.86
+PRD054,Wireless Charger,Gaming,1:20,FutureTech,High-quality product with advanced features.,450,463.49,812.25
+PRD055,USB-C Hub,Wearable Tech,1:2,InnovateX,Built with premium materials for long-term use.,321,140.89,341.79
+PRD056,Bluetooth Speaker,Audio,1:2,NanoElectronics,Built with premium materials for long-term use.,445,221.64,317.16
+PRD057,Smartphone Stand,Office Supplies,1:2,InnovateX,Enhanced for professional and personal use.,138,470.66,704.95
+PRD058,WiFi Router,Gaming,1:2,FutureTech,Built with premium materials for long-term use.,247,480.84,905.75
+PRD059,USB-C Hub,Electronics,1:10,NanoElectronics,High-quality product with advanced features.,463,353.35,824.67
+PRD060,VR Headset,Gaming,1:4,GigaByte,Designed for durability and performance.,308,137.0,200.57
+PRD061,Noise Cancelling Headphones,Office Supplies,1:4,InnovateX,Designed for durability and performance.,275,172.25,387.25
+PRD062,Portable Monitor,Accessories,1:4,TechCorp,Enhanced for professional and personal use.,369,213.23,402.86
+PRD063,Gaming Keyboard,Office Supplies,1:10,FutureTech,Designed for durability and performance.,6,316.69,639.66
+PRD064,Laptop Cooling Pad,Electronics,1:20,NanoElectronics,Designed for durability and performance.,7,131.48,245.34
+PRD065,WiFi Router,Office Supplies,1:5,InnovateX,Designed for durability and performance.,104,59.07,105.17
+PRD066,Fitness Tracker,Electronics,1:5,HyperGear,Enhanced for professional and personal use.,269,285.77,495.88
+PRD067,Fitness Tracker,Gaming,1:2,GigaByte,Built with premium materials for long-term use.,278,449.59,742.98
+PRD068,Mechanical Keyboard,Accessories,1:20,NanoElectronics,Designed for durability and performance.,338,98.37,199.92
+PRD069,WiFi Router,Electronics,1:5,FutureTech,Enhanced for professional and personal use.,493,5.98,9.32
+PRD070,Gaming Chair,Electronics,1:5,NanoElectronics,Enhanced for professional and personal use.,285,29.13,65.84
+PRD071,VR Headset,Gaming,1:20,GigaByte,High-quality product with advanced features.,331,151.46,299.41
+PRD072,Fitness Tracker,Wearable Tech,1:4,TechCorp,Designed for durability and performance.,330,405.98,677.09
+PRD073,Laptop Cooling Pad,Audio,1:20,FutureTech,High-quality product with advanced features.,321,458.15,934.96
+PRD074,External Hard Drive,Wearable Tech,1:2,TechCorp,Enhanced for professional and personal use.,251,430.47,813.43
+PRD075,Gaming Chair,Electronics,1:4,GigaByte,High-quality product with advanced features.,241,271.94,568.67
+PRD076,Smartphone Stand,Wearable Tech,1:2,HyperGear,Enhanced for professional and personal use.,229,434.23,951.76
+PRD077,Power Bank,Wearable Tech,1:20,InnovateX,High-quality product with advanced features.,-48,70.96,135.32
+PRD078,Portable Monitor,Electronics,1:2,InnovateX,Designed for durability and performance.,-42,393.66,704.23
+PRD079,Smartphone Stand,Wearable Tech,1:4,FutureTech,Built with premium materials for long-term use.,225,54.61,134.92
+PRD080,Portable Monitor,Accessories,1:2,GigaByte,Designed for durability and performance.,17,433.33,671.16
+PRD081,Gaming Keyboard,Audio,1:10,HyperGear,Enhanced for professional and personal use.,330,232.49,486.32
+PRD082,Power Bank,Wearable Tech,1:20,InnovateX,High-quality product with advanced features.,342,30.78,50.65
+PRD083,External Hard Drive,Wearable Tech,1:2,FutureTech,Lightweight and compact for easy portability.,100,64.3,124.64
+PRD084,WiFi Router,Office Supplies,1:20,HyperGear,Enhanced for professional and personal use.,96,23.67,49.13
+PRD085,USB-C Hub,Wearable Tech,1:10,NanoElectronics,Designed for durability and performance.,154,146.62,193.29
+PRD086,Mechanical Keyboard,Audio,1:10,GigaByte,Enhanced for professional and personal use.,344,416.95,961.01
+PRD087,Noise Cancelling Headphones,Wearable Tech,1:20,GigaByte,Designed for durability and performance.,445,26.68,51.1
+PRD088,Wireless Mouse,Office Supplies,1:5,FutureTech,Designed for durability and performance.,389,122.11,178.83
+PRD089,Smartwatch,Office Supplies,1:2,HyperGear,Lightweight and compact for easy portability.,17,74.8,140.52
+PRD090,Smartwatch,Electronics,1:20,NanoElectronics,Lightweight and compact for easy portability.,368,88.72,217.76
+PRD091,Laptop Cooling Pad,Audio,1:2,TechCorp,Enhanced for professional and personal use.,496,80.95,136.72
+PRD092,Laptop Cooling Pad,Accessories,1:20,FutureTech,High-quality product with advanced features.,65,438.52,808.0
+PRD093,Gaming Keyboard,Electronics,1:5,NanoElectronics,Lightweight and compact for easy portability.,96,369.87,609.16
+PRD094,Wireless Charger,Wearable Tech,1:20,FutureTech,Built with premium materials for long-term use.,274,336.05,739.26
+PRD095,Gaming Chair,Wearable Tech,1:10,FutureTech,Enhanced for professional and personal use.,357,53.92,96.07
+PRD096,Smartphone Stand,Gaming,1:10,NanoElectronics,Built with premium materials for long-term use.,-15,206.82,457.65
+PRD097,External Hard Drive,Office Supplies,1:2,HyperGear,High-quality product with advanced features.,308,257.11,570.58
+PRD098,USB-C Hub,Accessories,1:2,TechCorp,Enhanced for professional and personal use.,217,325.11,442.78
+PRD099,Wireless Charger,Accessories,1:5,InnovateX,Built with premium materials for long-term use.,225,485.71,631.57
+PRD100,Power Bank,Wearable Tech,1:10,HyperGear,Designed for durability and performance.,339,291.11,349.52
+PRD101,Laptop Cooling Pad,Office Supplies,1:5,FutureTech,Enhanced for professional and personal use.,184,148.77,319.15
+PRD102,Bluetooth Speaker,Accessories,1:10,InnovateX,Built with premium materials for long-term use.,27,488.96,1096.54
+PRD103,Smartwatch,Electronics,1:2,NanoElectronics,Enhanced for professional and personal use.,-48,335.65,698.66
+PRD104,Smartphone Stand,Audio,1:20,GigaByte,High-quality product with advanced features.,45,140.49,207.5
+PRD105,Mechanical Keyboard,Electronics,1:4,TechCorp,Built with premium materials for long-term use.,284,347.54,496.03
+PRD106,Smartwatch,Accessories,1:20,NanoElectronics,Lightweight and compact for easy portability.,490,470.0,755.58
+PRD107,Power Bank,Gaming,1:20,InnovateX,Enhanced for professional and personal use.,448,35.62,62.1
+PRD108,Smartwatch,Wearable Tech,1:5,HyperGear,Enhanced for professional and personal use.,-49,399.69,535.42
+PRD109,Smartphone Stand,Accessories,1:20,GigaByte,Designed for durability and performance.,426,42.44,96.7
+PRD110,Fitness Tracker,Gaming,1:20,GigaByte,Enhanced for professional and personal use.,78,23.73,51.65
+PRD111,Gaming Keyboard,Electronics,1:10,NanoElectronics,High-quality product with advanced features.,43,262.18,653.07
+PRD112,Gaming Chair,Electronics,1:10,TechCorp,Lightweight and compact for easy portability.,471,120.7,208.56
+PRD113,Fitness Tracker,Gaming,1:2,GigaByte,Designed for durability and performance.,14,303.79,723.06
+PRD114,Power Bank,Office Supplies,1:5,GigaByte,Designed for durability and performance.,318,318.92,545.12
+PRD115,Noise Cancelling Headphones,Wearable Tech,1:20,FutureTech,Built with premium materials for long-term use.,302,77.1,139.77

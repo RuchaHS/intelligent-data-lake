@@ -48,6 +48,3 @@ def run():
             st.json(response.json()["results"])
         else:
             st.error(response.text)
-
-if __name__ == "__main__":
-    run()

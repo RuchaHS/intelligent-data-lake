@@ -55,6 +55,3 @@ def run():
             if preview_response.status_code == 200:
                 df_preview = pd.DataFrame(preview_response.json()["preview"])
                 st.dataframe(df_preview)
-
-if __name__ == "__main__":
-    run()

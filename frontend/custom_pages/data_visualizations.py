@@ -121,7 +121,3 @@ def run():
                 st.plotly_chart(fig, use_container_width=False) if fig else None
 
             st.success("✅ Visualization Complete!")
-
-
-if __name__ == "__main__":
-    run()

@@ -129,8 +129,3 @@ def run():
                 st.json(rules)
             else:
                 st.error(response.text)
-
-
-# ✅ Ensure the script runs only when executed directly
-if __name__ == "__main__":
-    run()

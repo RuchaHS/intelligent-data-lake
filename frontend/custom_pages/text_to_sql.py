@@ -38,6 +38,4 @@ def run():
                 st.write(explanation)
             else:
                 st.error(response.text)
-
-if __name__ == "__main__":
-    run()
+                

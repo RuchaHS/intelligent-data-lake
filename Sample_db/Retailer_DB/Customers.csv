@@ -1,0 +1,184 @@
+customerNumber,customerName,contactLastName,contactFirstName,phone,addressLine1,addressLine2,city,state,postalCode,country,salesRepEmployeeNumber,creditLimit
+1,Prime Systems 787,Sharma,Rohit,+91-6890-596486,739 Tagore Path,,Pune,KA,374323,India,,429639.0
+2,NextGen Technologies 115,Das,Raj,+91-9134-450326,385 Ambedkar Marg,,Chennai,UP,157410,India,48.0,52079.0
+3,Sunrise Software 584,Verma,Neha,+91-5664-210007,363 Tagore Path,Suite 86,Pune,GJ,629640,India,61.0,
+4,Quantum Systems 281,Gupta,Sanjay,+91-8520-804792,681 Ambedkar Marg,Suite 6,Chennai,TG,,India,68.0,458147.0
+5,Global Traders 882,Bose,Anita,+91-1457-882647,858 Ambedkar Marg,,Pune,RJ,345893,India,,
+6,Elite Software 420,Joshi,Suresh,+91-1623-808791,922 Sardar Patel Avenue,Suite 42,Pune,GJ,173551,India,,50151.0
+7,Bright Future Corp 666,Jain,Swati,+91-1872-963923,493 Shivaji Nagar,Suite 43,Bangalore,,905168,India,49.0,
+8,Global Traders 331,Gupta,Swati,+91-8894-799845,682 Shivaji Nagar,Suite 15,Chennai,TG,,India,,
+9,Sunrise Software 844,Chopra,Pooja,+91-6047-354930,453 Mahatma Gandhi Road,Suite 85,Lucknow,,369443,India,128.0,384213.0
+10,Rapid IT 266,Gupta,Varun,+91-7409-352367,902 Vivekananda Street,Suite 17,Lucknow,MH,,India,109.0,258120.0
+11,Infinity Solutions 61,Verma,Amit,+91-5962-318531,88 Tagore Path,,Ahmedabad,GJ,504055,India,146.0,
+12,Elite Software 301,Kapoor,Kavita,+91-9298-138310,447 Nehru Street,,Delhi,MH,,India,,408473.0
+13,Dynamic Solutions 422,Verma,Anita,+91-6516-957382,756 Ambedkar Marg,Suite 68,Chennai,MH,,India,8.0,
+14,Sunrise Software 348,Gupta,Suresh,+91-9685-362717,975 Rajaji Road,,Ahmedabad,UP,932704,India,95.0,
+15,Visionary Ventures 566,Goel,Pooja,+91-8282-345388,657 Ambedkar Marg,Suite 45,Ahmedabad,,,India,,84060.0
+16,Velocity Solutions 437,Mehta,Priya,+91-9958-720182,511 Tagore Path,Suite 48,Hyderabad,TG,,India,,
+17,Rapid IT 175,Verma,Ramesh,+91-4953-704708,840 Shivaji Nagar,,Bangalore,,,India,,186914.0
+18,Pinnacle Enterprises 516,Iyer,Meena,+91-1266-955311,157 Nehru Street,,Bangalore,TN,976279,India,137.0,483484.0
+19,Elite Software 896,Pillai,Meena,+91-9946-468052,895 Mahatma Gandhi Road,,Delhi,,683775,India,,125520.0
+20,Sunrise Software 342,Trivedi,Swati,+91-8702-462419,598 Shivaji Nagar,,Ahmedabad,,,India,115.0,198255.0
+21,Advanced Networks 55,Singh,Varun,+91-3779-119296,266 Rajaji Road,,Jaipur,TN,,India,,117153.0
+22,Everest Technologies 799,Das,Ramesh,+91-1368-567095,616 Shivaji Nagar,,Delhi,,,India,,
+23,Prime Systems 833,Gupta,Kavita,+91-3064-483512,16 Tagore Path,Suite 4,Delhi,,,India,103.0,
+24,Future Innovations 37,Jain,Meena,+91-7286-587948,504 Netaji Subhash Place,,Ahmedabad,,,India,,426757.0
+25,Elite Software 481,Bose,Ajay,+91-6740-702572,112 Netaji Subhash Place,,Mumbai,MH,133105,India,35.0,
+26,Future Innovations 62,Chopra,Priya,+91-2558-639669,56 Ambedkar Marg,,Kolkata,KA,989058,India,169.0,
+27,Prime Systems 915,Kapoor,Priya,+91-2232-948194,991 Sardar Patel Avenue,,Kolkata,TG,,India,114.0,479753.0
+28,Pinnacle Enterprises 521,Kapoor,Amit,+91-9899-561740,921 Mahatma Gandhi Road,Suite 13,Kolkata,,347690,India,,
+29,Bright Future Corp 165,Das,Sunita,+91-6478-756242,704 Vivekananda Street,,Chennai,,660949,India,,489752.0
+30,Visionary Ventures 126,Das,Alok,+91-2268-176675,725 Vivekananda Street,Suite 36,Delhi,,342399,India,,
+31,Prime Systems 816,Kapoor,Ramesh,+91-7441-481298,811 Rajaji Road,Suite 81,Ahmedabad,,745459,India,50.0,
+32,Dynamic Solutions 884,Mehta,Neha,+91-7414-884210,438 Tilak Marg,Suite 88,Kolkata,,892005,India,,443013.0
+33,Sunrise Software 169,Desai,Ramesh,+91-2469-441442,345 Tilak Marg,Suite 77,Chennai,DL,,India,113.0,
+34,Quantum Systems 651,Iyer,Anita,+91-1854-336316,572 Shivaji Nagar,,Pune,,777480,India,112.0,
+35,Skyline Enterprises 934,Reddy,Amit,+91-7430-527552,929 Tilak Marg,Suite 65,Kolkata,RJ,,India,,107300.0
+36,Advanced Networks 768,Das,Meena,+91-7429-381035,651 Tilak Marg,,Ahmedabad,UP,438657,India,,
+37,Skyline Enterprises 157,Mehta,Ramesh,+91-4931-770478,872 Sardar Patel Avenue,Suite 11,Ahmedabad,TG,543551,India,134.0,
+38,Elite Software 138,Das,Pooja,+91-6769-465057,304 Netaji Subhash Place,,Chennai,,,India,46.0,
+39,Infinity Solutions 806,Chopra,Raj,+91-4518-310733,620 Mahatma Gandhi Road,Suite 9,Pune,,162127,India,,
+40,Skyline Enterprises 490,Jain,Sunita,+91-1432-514297,785 Vivekananda Street,,Delhi,,151418,India,62.0,
+41,Prime Systems 648,Mehta,Ramesh,+91-8281-703119,800 Tagore Path,,Kolkata,,,India,139.0,
+42,Pinnacle Enterprises 580,Joshi,Vikram,+91-4622-978420,411 Nehru Street,,Mumbai,,,India,,346942.0
+43,Future Innovations 347,Nair,Kiran,+91-3441-104601,895 Vivekananda Street,Suite 57,Lucknow,MH,,India,108.0,
+44,Global Traders 533,Trivedi,Vikram,+91-7703-734601,260 Shivaji Nagar,Suite 73,Pune,UP,851144,India,,
+45,Global Traders 840,Verma,Suresh,+91-4550-547225,200 Tilak Marg,,Mumbai,MH,194626,India,87.0,286540.0
+46,Sunrise Software 937,Nair,Sanjay,+91-4143-715474,105 Rajaji Road,Suite 51,Ahmedabad,KA,767719,India,,452333.0
+47,Cloud Services 918,Jain,Alok,+91-3249-670847,779 Mahatma Gandhi Road,Suite 29,Delhi,,,India,39.0,79231.0
+48,Sunrise Software 899,Malhotra,Rohit,+91-5224-249390,986 Mahatma Gandhi Road,,Hyderabad,,637914,India,,352047.0
+49,Everest Technologies 371,Patil,Pooja,+91-5359-162610,104 Netaji Subhash Place,,Delhi,DL,,India,56.0,
+50,Advanced Networks 358,Trivedi,Vikram,+91-2809-822666,778 Mahatma Gandhi Road,Suite 42,Jaipur,,,India,110.0,378480.0
+51,Velocity Solutions 76,Bose,Meena,+91-2185-684048,270 Sardar Patel Avenue,,Ahmedabad,,,India,130.0,68747.0
+52,Everest Technologies 421,Jain,Sanjay,+91-6660-111082,829 Netaji Subhash Place,Suite 26,Lucknow,TG,137730,India,64.0,
+53,Infinity Solutions 268,Trivedi,Amit,+91-5625-369200,677 Vivekananda Street,Suite 99,Lucknow,,120728,India,80.0,475253.0
+54,Future Innovations 784,Pillai,Priya,+91-1155-500386,900 Netaji Subhash Place,,Bangalore,TG,,India,67.0,
+55,Tech Solutions 90,Jain,Anita,+91-6648-291908,184 Vivekananda Street,Suite 42,Mumbai,TG,,India,84.0,458981.0
+56,Quantum Systems 972,Bose,Neha,+91-2498-358503,174 Nehru Street,Suite 66,Mumbai,,,India,,450841.0
+57,Skyline Enterprises 528,Bose,Alok,+91-8458-502515,409 Shivaji Nagar,Suite 18,Chennai,,335835,India,,160268.0
+58,Fusion Tech 340,Singh,Sanjay,+91-7642-373781,939 Sardar Patel Avenue,,Hyderabad,GJ,492593,India,,196313.0
+59,Velocity Solutions 603,Jain,Ramesh,+91-8263-482941,111 Mahatma Gandhi Road,Suite 33,Bangalore,UP,,India,,
+60,Rapid IT 820,Malhotra,Ramesh,+91-7056-249623,539 Nehru Street,Suite 12,Lucknow,,382017,India,,475404.0
+61,Pinnacle Enterprises 774,Malhotra,Raj,+91-9830-939881,958 Rajaji Road,Suite 16,Chennai,,421995,India,,294811.0
+62,Future Innovations 199,Reddy,Amit,+91-2045-283107,604 Nehru Street,,Delhi,MH,,India,,
+63,Future Innovations 964,Sharma,Amit,+91-1161-340505,847 Mahatma Gandhi Road,Suite 68,Bangalore,GJ,,India,180.0,
+64,Future Innovations 706,Das,Sanjay,+91-2181-148050,127 Netaji Subhash Place,,Bangalore,,305883,India,115.0,436043.0
+65,Quantum Systems 816,Desai,Rohit,+91-2226-128119,932 Nehru Street,,Delhi,,,India,152.0,
+66,Prime Systems 823,Gupta,Varun,+91-1069-798233,297 Tagore Path,Suite 52,Lucknow,,891987,India,52.0,231254.0
+67,Tech Solutions 975,Goel,Neha,+91-4874-459640,997 Vivekananda Street,,Bangalore,,802038,India,,130286.0
+68,Elite Software 735,Sharma,Meena,+91-6201-686279,503 Sardar Patel Avenue,Suite 96,Lucknow,RJ,793666,India,,
+69,Quantum Systems 966,Reddy,Deepak,+91-6366-572771,639 Tagore Path,,Bangalore,RJ,,India,,51117.0
+70,Quantum Systems 472,Malhotra,Kiran,+91-8480-431369,748 Nehru Street,,Jaipur,,395451,India,,
+71,Skyline Enterprises 42,Malhotra,Suresh,+91-3760-775219,897 Shivaji Nagar,,Lucknow,,458390,India,,
+72,Infinity Solutions 998,Reddy,Varun,+91-9808-232086,713 Nehru Street,,Lucknow,RJ,436185,India,1.0,
+73,Tech Solutions 47,Kapoor,Meena,+91-8281-436034,96 Nehru Street,,Chennai,,,India,,
+74,Future Innovations 265,Pillai,Sunita,+91-3053-117083,550 Ambedkar Marg,Suite 72,Bangalore,,,India,38.0,391771.0
+75,Global Traders 926,Iyer,Anita,+91-9227-383577,715 Nehru Street,,Hyderabad,,959423,India,115.0,189590.0
+76,Future Innovations 619,Malhotra,Suresh,+91-7898-538077,655 Tilak Marg,Suite 71,Pune,,,India,,
+77,Everest Technologies 602,Iyer,Varun,+91-1797-911647,359 Rajaji Road,Suite 42,Chennai,,678730,India,69.0,
+78,Rapid IT 711,Patil,Priya,+91-9802-621899,276 Nehru Street,,Lucknow,GJ,465236,India,149.0,297907.0
+79,Velocity Solutions 539,Kapoor,Anita,+91-7140-174313,727 Shivaji Nagar,,Jaipur,,584055,India,75.0,
+80,Advanced Networks 176,Jain,Swati,+91-8777-208861,502 Mahatma Gandhi Road,Suite 72,Hyderabad,GJ,399281,India,,
+81,Pinnacle Enterprises 13,Malhotra,Rohit,+91-4548-166388,492 Tagore Path,,Jaipur,TG,,India,,279504.0
+82,Visionary Ventures 83,Patil,Sanjay,+91-4797-297206,18 Tagore Path,Suite 25,Pune,DL,,India,,
+83,Future Innovations 576,Gupta,Swati,+91-3971-118745,381 Sardar Patel Avenue,,Kolkata,,833437,India,,254891.0
+84,Elite Software 699,Gupta,Rohit,+91-1715-854826,604 Shivaji Nagar,Suite 40,Mumbai,,262304,India,,388780.0
+85,Quantum Systems 353,Chopra,Deepak,+91-6268-342592,626 Mahatma Gandhi Road,Suite 91,Delhi,,433818,India,20.0,156453.0
+86,Dynamic Solutions 998,Joshi,Anita,+91-4131-278549,980 Nehru Street,,Lucknow,MH,579758,India,52.0,
+87,Future Innovations 631,Pillai,Priya,+91-3676-304353,83 Rajaji Road,,Ahmedabad,,897484,India,,110084.0
+88,Tech Solutions 627,Kapoor,Priya,+91-1360-578362,384 Ambedkar Marg,Suite 81,Hyderabad,TN,,India,,
+89,Elite Software 367,Trivedi,Varun,+91-2635-397047,963 Vivekananda Street,,Pune,,,India,114.0,
+90,Quantum Systems 115,Nair,Sunita,+91-9383-906754,447 Ambedkar Marg,Suite 86,Pune,,254038,India,,390110.0
+91,Everest Technologies 932,Gupta,Vikram,+91-5631-374939,881 Shivaji Nagar,Suite 60,Mumbai,,920296,India,,
+92,Velocity Solutions 186,Bose,Meena,+91-1291-118842,218 Mahatma Gandhi Road,Suite 12,Mumbai,,272239,India,25.0,
+93,Future Innovations 446,Goel,Priya,+91-2910-263454,756 Shivaji Nagar,,Kolkata,TN,,India,15.0,303184.0
+94,Fusion Tech 290,Patil,Vikram,+91-6389-718612,762 Netaji Subhash Place,,Delhi,WB,,India,61.0,143218.0
+95,Advanced Networks 77,Gupta,Swati,+91-9271-623022,788 Rajaji Road,,Mumbai,RJ,,India,,453393.0
+96,Future Innovations 215,Mehta,Neha,+91-4357-646070,950 Netaji Subhash Place,,Hyderabad,,,India,151.0,497281.0
+97,Tech Solutions 196,Iyer,Ajay,+91-5961-257343,976 Tilak Marg,,Chennai,GJ,,India,,457756.0
+98,Elite Software 202,Bose,Neha,+91-1054-343068,73 Nehru Street,Suite 41,Hyderabad,,969171,India,29.0,288815.0
+99,Dynamic Solutions 87,Jain,Vikram,+91-7786-466783,667 Shivaji Nagar,Suite 1,Jaipur,,,India,,
+100,Cloud Services 497,Verma,Meena,+91-8983-572926,927 Shivaji Nagar,,Lucknow,MH,886633,India,104.0,
+101,Advanced Networks 474,Reddy,Anita,+91-5853-180585,558 Tilak Marg,Suite 35,Pune,,,India,141.0,
+102,Rapid IT 631,Verma,Priya,+91-8501-811640,341 Tilak Marg,Suite 3,Pune,MH,855244,India,163.0,270802.0
+103,Visionary Ventures 108,Bose,Ajay,+91-4435-977632,218 Ambedkar Marg,,Kolkata,MH,,India,,
+104,Skyline Enterprises 366,Sharma,Priya,+91-2450-428132,532 Sardar Patel Avenue,,Lucknow,TN,,India,16.0,
+105,Bright Future Corp 417,Gupta,Deepak,+91-2051-839139,134 Tilak Marg,,Hyderabad,MH,,India,,370075.0
+106,Visionary Ventures 40,Verma,Raj,+91-9275-228324,668 Mahatma Gandhi Road,,Delhi,TG,304984,India,,
+107,Fusion Tech 663,Sharma,Vikram,+91-2808-732661,906 Sardar Patel Avenue,,Chennai,,,India,37.0,300182.0
+108,Everest Technologies 244,Sharma,Suresh,+91-8110-443171,623 Sardar Patel Avenue,Suite 41,Pune,WB,,India,,
+109,Skyline Enterprises 931,Verma,Raj,+91-5365-685083,360 Tagore Path,,Pune,,,India,,479965.0
+110,Everest Technologies 263,Malhotra,Rohit,+91-9757-743766,174 Nehru Street,,Kolkata,TN,,India,86.0,
+111,Pinnacle Enterprises 599,Bose,Swati,+91-3558-764473,135 Rajaji Road,Suite 43,Hyderabad,,,India,147.0,
+112,Dynamic Solutions 945,Jain,Kavita,+91-8174-548066,81 Rajaji Road,Suite 30,Chennai,MH,193477,India,149.0,373469.0
+113,Rapid IT 809,Nair,Sunita,+91-8997-799473,39 Vivekananda Street,Suite 6,Mumbai,TG,,India,10.0,321894.0
+114,Velocity Solutions 460,Mehta,Kiran,+91-8525-571131,934 Netaji Subhash Place,,Mumbai,UP,,India,97.0,138295.0
+115,Pinnacle Enterprises 808,Kapoor,Neha,+91-9452-194044,672 Mahatma Gandhi Road,,Hyderabad,,983634,India,,399701.0
+116,Sunrise Software 927,Jain,Pooja,+91-4784-641673,528 Vivekananda Street,Suite 32,Ahmedabad,DL,715262,India,,440331.0
+117,Infinity Solutions 94,Trivedi,Ajay,+91-8182-878047,401 Vivekananda Street,,Chennai,RJ,659959,India,100.0,
+118,Future Innovations 967,Kapoor,Kavita,+91-5711-666029,903 Shivaji Nagar,,Lucknow,TN,166651,India,,495118.0
+119,Elite Software 688,Desai,Ajay,+91-4847-189887,815 Sardar Patel Avenue,Suite 52,Kolkata,,130688,India,49.0,
+120,Rapid IT 817,Malhotra,Anita,+91-1696-627967,532 Vivekananda Street,Suite 51,Ahmedabad,WB,,India,,
+121,Bright Future Corp 118,Reddy,Raj,+91-3629-578960,401 Nehru Street,,Delhi,TN,,India,,454242.0
+122,Global Traders 307,Kapoor,Sanjay,+91-4508-979075,870 Mahatma Gandhi Road,,Ahmedabad,UP,537215,India,,
+123,Prime Systems 697,Verma,Vikram,+91-5613-587819,594 Tagore Path,,Delhi,,,India,158.0,175804.0
+124,NextGen Technologies 240,Patil,Anita,+91-1687-181568,272 Ambedkar Marg,,Chennai,,733096,India,137.0,169884.0
+125,Tech Solutions 482,Gupta,Kavita,+91-3453-709431,100 Ambedkar Marg,Suite 65,Kolkata,KA,788364,India,30.0,
+126,Infinity Solutions 983,Singh,Amit,+91-9627-645879,547 Mahatma Gandhi Road,,Hyderabad,,,India,162.0,
+127,Velocity Solutions 877,Malhotra,Anita,+91-9860-590465,689 Sardar Patel Avenue,Suite 68,Delhi,RJ,724138,India,9.0,
+128,Advanced Networks 957,Kapoor,Alok,+91-7675-467715,421 Netaji Subhash Place,Suite 93,Lucknow,,,India,54.0,
+129,Global Traders 416,Bose,Neha,+91-8626-552233,412 Netaji Subhash Place,,Pune,DL,560321,India,138.0,
+130,Prime Systems 34,Patil,Kiran,+91-6134-217948,935 Ambedkar Marg,Suite 54,Delhi,TG,,India,120.0,
+131,Sunrise Software 89,Singh,Kavita,+91-7369-371597,887 Mahatma Gandhi Road,Suite 73,Hyderabad,DL,,India,,
+132,Rapid IT 794,Trivedi,Meena,+91-7733-295476,102 Ambedkar Marg,,Chennai,MH,740305,India,,165972.0
+133,Prime Systems 298,Trivedi,Suresh,+91-2035-216963,460 Tilak Marg,Suite 28,Ahmedabad,TN,585703,India,,262937.0
+134,Rapid IT 725,Patil,Amit,+91-4269-487921,191 Tagore Path,Suite 92,Jaipur,,274983,India,,193941.0
+135,Elite Software 44,Goel,Kiran,+91-1828-860551,275 Ambedkar Marg,Suite 50,Lucknow,,539274,India,,167810.0
+136,Everest Technologies 836,Pillai,Meena,+91-1544-763733,714 Ambedkar Marg,,Kolkata,WB,143127,India,168.0,
+137,Elite Software 56,Mehta,Rohit,+91-8168-422523,603 Ambedkar Marg,Suite 22,Pune,DL,288923,India,102.0,
+138,Infinity Solutions 268,Trivedi,Ajay,+91-8998-655997,930 Tilak Marg,Suite 13,Mumbai,TG,888994,India,147.0,305075.0
+139,Tech Solutions 632,Kapoor,Kavita,+91-6486-186840,661 Sardar Patel Avenue,Suite 57,Chennai,TN,,India,62.0,
+140,Infinity Solutions 436,Chopra,Raj,+91-3181-629345,735 Shivaji Nagar,,Pune,TG,621625,India,151.0,
+141,Cloud Services 41,Nair,Vikram,+91-8150-908734,77 Shivaji Nagar,,Kolkata,,949765,India,,
+142,Rapid IT 614,Sharma,Priya,+91-9956-654010,305 Vivekananda Street,Suite 35,Kolkata,,,India,88.0,220646.0
+143,Visionary Ventures 369,Nair,Meena,+91-5170-860769,168 Ambedkar Marg,,Pune,,668131,India,,
+144,Future Innovations 825,Singh,Kavita,+91-9418-399501,895 Tilak Marg,Suite 95,Bangalore,,639248,India,,
+145,Prime Systems 14,Nair,Sanjay,+91-9824-786869,959 Rajaji Road,,Mumbai,RJ,,India,124.0,
+146,Pinnacle Enterprises 766,Sharma,Priya,+91-5486-770797,815 Netaji Subhash Place,Suite 79,Bangalore,,412854,India,,192671.0
+147,Everest Technologies 144,Verma,Ramesh,+91-5674-710656,527 Vivekananda Street,Suite 12,Ahmedabad,,,India,,
+148,Rapid IT 732,Kapoor,Ajay,+91-2049-542393,744 Sardar Patel Avenue,Suite 81,Mumbai,,689131,India,,
+149,Fusion Tech 205,Desai,Vikram,+91-8742-828911,693 Shivaji Nagar,Suite 57,Pune,,,India,,238478.0
+150,Advanced Networks 759,Pillai,Anita,+91-6673-381537,394 Rajaji Road,Suite 66,Ahmedabad,MH,111733,India,105.0,66583.0
+151,Dynamic Solutions 776,Joshi,Varun,+91-9562-493066,186 Shivaji Nagar,Suite 17,Lucknow,,459395,India,173.0,
+152,Infinity Solutions 740,Mehta,Suresh,+91-9995-501914,870 Nehru Street,,Mumbai,TG,,India,27.0,
+153,Dynamic Solutions 69,Pillai,Amit,+91-9834-894220,853 Vivekananda Street,,Jaipur,,566462,India,,122789.0
+154,Global Traders 564,Das,Suresh,+91-7760-669554,563 Shivaji Nagar,,Mumbai,GJ,561172,India,,
+155,Prime Systems 329,Verma,Priya,+91-3393-767608,399 Nehru Street,,Bangalore,GJ,292000,India,,468261.0
+156,Infinity Solutions 127,Singh,Neha,+91-9719-569653,620 Tagore Path,Suite 30,Mumbai,UP,317484,India,79.0,
+157,Prime Systems 302,Kapoor,Anita,+91-3960-516714,199 Sardar Patel Avenue,Suite 37,Jaipur,,,India,136.0,
+158,Elite Software 166,Reddy,Kiran,+91-2891-651478,752 Mahatma Gandhi Road,,Bangalore,,591926,India,,
+159,Visionary Ventures 749,Malhotra,Rohit,+91-4139-730099,662 Mahatma Gandhi Road,Suite 66,Delhi,MH,,India,5.0,
+160,Sunrise Software 93,Pillai,Priya,+91-8583-208371,734 Tilak Marg,,Kolkata,WB,150285,India,8.0,435091.0
+161,Fusion Tech 125,Gupta,Amit,+91-5605-256177,498 Sardar Patel Avenue,,Jaipur,GJ,164077,India,13.0,85779.0
+162,Skyline Enterprises 971,Reddy,Priya,+91-8633-940615,349 Vivekananda Street,,Lucknow,KA,152367,India,70.0,300872.0
+163,Sunrise Software 790,Bose,Ajay,+91-5488-896006,93 Tilak Marg,Suite 87,Chennai,,,India,,383757.0
+164,Skyline Enterprises 458,Gupta,Raj,+91-8873-559573,721 Netaji Subhash Place,,Bangalore,,814137,India,,469951.0
+165,Bright Future Corp 949,Desai,Alok,+91-5248-683437,184 Ambedkar Marg,Suite 5,Lucknow,,,India,,267253.0
+166,NextGen Technologies 724,Jain,Vikram,+91-9678-774214,20 Netaji Subhash Place,Suite 43,Ahmedabad,RJ,,India,,484110.0
+167,NextGen Technologies 561,Gupta,Deepak,+91-7448-439211,888 Sardar Patel Avenue,Suite 70,Chennai,MH,,India,145.0,
+168,Everest Technologies 643,Das,Neha,+91-9726-551688,444 Mahatma Gandhi Road,,Kolkata,TG,,India,,300139.0
+169,Prime Systems 238,Bose,Pooja,+91-9317-198056,855 Ambedkar Marg,Suite 38,Ahmedabad,TG,,India,158.0,
+170,Velocity Solutions 140,Goel,Kavita,+91-7044-491158,828 Ambedkar Marg,,Chennai,DL,,India,,255643.0
+171,Visionary Ventures 89,Mehta,Swati,+91-8811-220579,236 Tagore Path,Suite 22,Lucknow,,,India,105.0,79086.0
+172,Advanced Networks 207,Sharma,Priya,+91-1782-996728,811 Rajaji Road,,Hyderabad,,,India,181.0,338359.0
+173,Advanced Networks 280,Singh,Meena,+91-2887-664212,271 Sardar Patel Avenue,Suite 85,Kolkata,,,India,,269030.0
+174,Velocity Solutions 74,Chopra,Priya,+91-8730-270869,610 Rajaji Road,,Jaipur,,,India,33.0,339668.0
+175,Skyline Enterprises 518,Malhotra,Sanjay,+91-4991-224981,297 Vivekananda Street,,Kolkata,,264632,India,33.0,372674.0
+176,Velocity Solutions 113,Goel,Sunita,+91-2325-617328,251 Mahatma Gandhi Road,Suite 10,Mumbai,WB,,India,72.0,108049.0
+177,Dynamic Solutions 389,Bose,Swati,+91-4688-855447,897 Shivaji Nagar,,Delhi,MH,,India,,
+178,Everest Technologies 804,Bose,Raj,+91-4012-918801,50 Netaji Subhash Place,Suite 34,Pune,,762910,India,,105001.0
+179,Velocity Solutions 143,Bose,Meena,+91-3256-294814,516 Vivekananda Street,,Delhi,,,India,,404146.0
+180,Quantum Systems 868,Reddy,Meena,+91-9112-153122,884 Mahatma Gandhi Road,,Pune,MH,695380,India,,263969.0
+181,Rapid IT 628,Chopra,Vikram,+91-8828-675449,866 Ambedkar Marg,Suite 8,Lucknow,,401599,India,,449583.0
+182,Dynamic Solutions 641,Reddy,Pooja,+91-4557-689335,772 Sardar Patel Avenue,,Kolkata,,996246,India,100.0,262847.0
+183,Everest Technologies 501,Trivedi,Swati,+91-2476-112558,345 Shivaji Nagar,Suite 49,Lucknow,WB,,India,,
